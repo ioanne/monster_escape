@@ -1,0 +1,40 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class InventoryToggle : MonoBehaviour
+{
+    public GameObject inventoryPanel;
+
+    public Button closeButton;
+
+    private bool isInventoryVisible = false;
+
+    void Start()
+    {
+        if (closeButton != null)
+        {
+            closeButton.onClick.AddListener(CloseInventory);
+            Debug.Log("Button listener added.");
+        }
+        else
+        {
+            Debug.LogError("Close button is not assigned.");
+        }
+    }
+
+    void Update()
+    {
+        if ((Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) && Input.GetKeyDown(KeyCode.I))
+        {
+            isInventoryVisible = !isInventoryVisible;
+            inventoryPanel.SetActive(isInventoryVisible);
+        }
+    }
+
+    void CloseInventory()
+    {
+        Debug.Log("Toca boton");
+        isInventoryVisible = false;
+        inventoryPanel.SetActive(isInventoryVisible);
+    }
+}
