@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/MosterEscape/Scenes/BootstrapScene.unity
     guid: 04cc2d8ced99dcf4a91d5509bf75ccbd
   - enabled: 1
-    path: Assets/MosterEscape/Scenes/tmp/PlayerUIScene.unity
-    guid: 6e9dc78e195fc0b49bdd0c068ba669a0
+    path: Assets/MosterEscape/Scenes/PlayerUIScene.unity
+    guid: 16c58ff984c0d044f9a73eb7d730d722
   - enabled: 1
     path: Assets/MosterEscape/Scenes/Level1Scene.unity
     guid: d8a818e59c2695148a27e58a49450035
