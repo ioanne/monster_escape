@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -258,9 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee22be29303bae41b8577eafd20ca6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Panel: {fileID: 0}
+  Panel: {fileID: 874998937}
   closeButton: {fileID: 1835989549}
-  menuButton: {fileID: 0}
+  menuButton: {fileID: 57887395}
 --- !u!1 &66137860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2857,9 +2857,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee22be29303bae41b8577eafd20ca6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Panel: {fileID: 0}
+  Panel: {fileID: 1532539063}
   closeButton: {fileID: 1040586184}
-  menuButton: {fileID: 0}
+  menuButton: {fileID: 422835798}
 --- !u!1 &472802505
 GameObject:
   m_ObjectHideFlags: 0
