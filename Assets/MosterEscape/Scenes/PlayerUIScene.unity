@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 4
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -258,9 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee22be29303bae41b8577eafd20ca6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryPanel: {fileID: 874998937}
+  Panel: {fileID: 0}
   closeButton: {fileID: 1835989549}
-  inventoryButton: {fileID: 57887395}
+  menuButton: {fileID: 0}
 --- !u!1 &66137860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2857,9 +2857,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee22be29303bae41b8577eafd20ca6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryPanel: {fileID: 1532539063}
+  Panel: {fileID: 0}
   closeButton: {fileID: 1040586184}
-  inventoryButton: {fileID: 422835798}
+  menuButton: {fileID: 0}
 --- !u!1 &472802505
 GameObject:
   m_ObjectHideFlags: 0
@@ -9209,7 +9209,7 @@ GameObject:
   - component: {fileID: 1823688468}
   m_Layer: 0
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
