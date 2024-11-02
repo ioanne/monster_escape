@@ -25,7 +25,7 @@ public class BootstrapLoader : MonoBehaviour
         // Ahora que la escena de loading está cargada, podemos acceder al LoadSceneManager
         if (LoadSceneManager.instance != null)
         {
-            List<string> scenesToLoad = new List<string> { "GameStartScene" };
+            List<string> scenesToLoad = new List<string> { "PlayerUIScene", "Level1Test" };
             LoadSceneManager.instance.LoadScenes(scenesToLoad);
         }
         else

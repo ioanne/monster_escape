@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class InventoryToggle : MonoBehaviour
 {
-    public GameObject inventoryPanel;
+    [SerializeField] private GameObject inventoryPanel;
 
-    public Button closeButton;
+    [SerializeField] private Button closeButton;
 
     private bool isInventoryVisible = false;
 
