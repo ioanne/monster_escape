@@ -5,39 +5,34 @@ public class MoveCharacter : MonoBehaviour
 {
     public float moveSpeed = 5f; // Velocidad de movimiento
     private CharacterController controller;
-    public Camera mainCamera; // La cámara principal
+    public Camera mainCamera; // La camara principal
+    public NavMeshAgent navAgent;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        navAgent = GetComponent<NavMeshAgent>();
         if (mainCamera == null)
         {
-            mainCamera = Camera.main; // Asigna la cámara principal si no se ha asignado
+            mainCamera = Camera.main; // Asigna la camara principal si no se ha asignado
         }
     }
 
     void Update()
     {
-        // Obtén la entrada del teclado
-        float horizontal = Input.GetAxis("Horizontal"); // A y D
-        float vertical = Input.GetAxis("Vertical"); // W y S
+        if (Input.GetMouseButtonDown(0))
+        {
+            Movimiento();
+        }
+    }
 
-        // Crea un vector de movimiento basado en la orientación de la cámara
-        Vector3 forward = mainCamera.transform.forward; // Dirección hacia adelante de la cámara
-        Vector3 right = mainCamera.transform.right; // Dirección a la derecha de la cámara
-
-        // Anula el componente Y para que no afecte el movimiento
-        forward.y = 0;
-        right.y = 0;
-
-        // Normaliza el vector para que no se acelere diagonalmente
-        forward.Normalize();
-        right.Normalize();
-
-        // Calcula el vector de movimiento
-        Vector3 move = right * horizontal + forward * vertical;
-
-        // Mueve el personaje
-        controller.Move(move * moveSpeed * Time.deltaTime);
+    void Movimiento(){
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        bool hasHit = Physics.Raycast(ray, out hit);
+        if (hasHit)
+        {
+            navAgent.destination = hit.point;
+        }
     }
 }
