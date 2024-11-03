@@ -65,7 +65,6 @@ public async void LoadScenes(List<string> sceneNames)
     }
     await Task.Delay(200);
 
-    // Activar todas las escenas al mismo tiempo
     foreach (var scene in scenesToActivate)
     {
         scene.allowSceneActivation = true;
