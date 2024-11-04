@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System;
 
 public class SwitchController : MonoBehaviour, IPointerClickHandler
 {
@@ -22,6 +23,8 @@ public class SwitchController : MonoBehaviour, IPointerClickHandler
     private Vector2 textOnPosition = new Vector2(-31, 0);
     private Vector2 textOffPosition = new Vector2(31, 0);
 
+    // Evento que notificará a otros scripts cuando el switch cambie de estado
+    public event Action<bool> OnSwitchToggled;
 
     private void Start()
     {
@@ -38,6 +41,9 @@ public class SwitchController : MonoBehaviour, IPointerClickHandler
         isOn = !isOn;
         UpdateSwitchUI();
         StartCoroutine(AnimateToggle());
+
+        // Llama al evento para notificar a AudioControllerUI sobre el cambio de estado
+        OnSwitchToggled?.Invoke(isOn);
     }
 
     private void UpdateSwitchUI()
@@ -63,5 +69,12 @@ public class SwitchController : MonoBehaviour, IPointerClickHandler
         }
 
         toggle.anchoredPosition = targetPosition;
+    }
+
+    // Método para que AudioControllerUI establezca el estado visual inicial
+    public void SetSwitchState(bool state)
+    {
+        isOn = state;
+        UpdateSwitchUI();
     }
 }

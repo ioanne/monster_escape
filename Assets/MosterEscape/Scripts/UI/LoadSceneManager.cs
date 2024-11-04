@@ -35,7 +35,6 @@ public async void LoadScenes(List<string> sceneNames)
     float progressPerScene = 1f / sceneNames.Count;
     List<AsyncOperation> scenesToActivate = new List<AsyncOperation>();
 
-    // Cargar cada escena sin activarlas
     foreach (var sceneName in sceneNames)
     {
         Debug.Log($"Loading scene: {sceneName}");
