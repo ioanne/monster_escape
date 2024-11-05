@@ -26,44 +26,50 @@ public class LoadSceneManager : MonoBehaviour
         }
     }
 
-    public async void LoadScenes(List<string> sceneNames)
+public async void LoadScenes(List<string> sceneNames)
+{
+    Debug.Log("Starting to load scenes.");
+    _loader.SetActive(true);
+
+    float totalProgress = 0f;
+    float progressPerScene = 1f / sceneNames.Count;
+    List<AsyncOperation> scenesToActivate = new List<AsyncOperation>();
+
+    foreach (var sceneName in sceneNames)
     {
-        Debug.Log("Starting to load scenes.");
-        _loader.SetActive(true);
+        Debug.Log($"Loading scene: {sceneName}");
+        var scene = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        scene.allowSceneActivation = false;
+        scenesToActivate.Add(scene);
 
-        float totalProgress = 0f;
-        float progressPerScene = 1f / sceneNames.Count;
-
-        foreach (var sceneName in sceneNames)
+        while (!scene.isDone)
         {
-            Debug.Log($"Loading scene: {sceneName}");
-            var scene = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-            scene.allowSceneActivation = false;
+            float sceneProgress = Mathf.Clamp01(scene.progress / 0.9f);
+            progressBar.value = (totalProgress + sceneProgress * progressPerScene) * 100;
+            progressText.text = $"Loading... {(progressBar.value):F0}%";
 
-            while (!scene.isDone)
+            Debug.Log($"Scene progress: {sceneProgress * 100:F0}%, Total progress: {progressBar.value:F0}%");
+
+            if (scene.progress >= 0.9f)
             {
-                float sceneProgress = Mathf.Clamp01(scene.progress / 0.9f);
-                progressBar.value = (totalProgress + sceneProgress * progressPerScene) * 100;
-                progressText.text = $"Loading... {(progressBar.value):F0}%";
-
-                Debug.Log($"Scene progress: {sceneProgress * 100:F0}%, Total progress: {progressBar.value:F0}%");
-
-                if (scene.progress >= 0.9f)
-                {
-                    await Task.Delay(10);
-                    break;
-                }
-
-                await Task.Yield();
+                await Task.Delay(10);
+                break;
             }
 
-            Debug.Log($"Scene {sceneName} loaded to 90%.");
-            scene.allowSceneActivation = true;
-
-            totalProgress += progressPerScene;
+            await Task.Yield();
         }
-        await Task.Delay(200);
-        Debug.Log("All scenes loaded.");
-        _loader.SetActive(false);
+
+        Debug.Log($"Scene {sceneName} loaded to 90%.");
+        totalProgress += progressPerScene;
     }
+    await Task.Delay(200);
+
+    foreach (var scene in scenesToActivate)
+    {
+        scene.allowSceneActivation = true;
+    }
+
+    Debug.Log("All scenes loaded and activated.");
+    _loader.SetActive(false);
+}
 }
