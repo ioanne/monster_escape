@@ -5,20 +5,56 @@ using UnityEngine;
 public class CameraBehaviour : MonoBehaviour
 {
     public Transform player; // El objeto jugador
-    public Vector3 offset; // Desplazamiento de la cámara con respecto al jugador
+    public Vector3 offset; // Desplazamiento de la cï¿½mara con respecto al jugador
     public float smoothSpeed = 0.125f; // Velocidad de suavizado
 
+    // Pruebas de movimiento de la camara
+    public Camera CameraObj;
+    private Vector3 origin;
+    private Vector3 difference;
+    private Vector3 resetCamera;
+    private bool isDragging = false;
+
+    void Start()
+    {
+        CameraObj = Camera.main;
+        resetCamera = CameraObj.transform.position;
+    }
     void LateUpdate()
     {
         // Verificamos que el jugador no sea nulo
         if (player != null)
         {
-            // La posición deseada es la posición del jugador más el offset
+            // La posiciï¿½n deseada es la posiciï¿½n del jugador mï¿½s el offset
             Vector3 desiredPosition = player.position + offset;
-            // Suavizamos el movimiento de la cámara
+            // Suavizamos el movimiento de la cï¿½mara
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-            // Actualizamos la posición de la cámara
+            // Actualizamos la posiciï¿½n de la cï¿½mara
             transform.position = smoothedPosition;
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            difference = CameraObj.ScreenToWorldPoint(Input.mousePosition) - CameraObj.transform.position;
+            if (isDragging == false)
+            {
+                isDragging = true;
+                origin = CameraObj.ScreenToWorldPoint(Input.mousePosition);
+            }
+        }
+        else
+        {
+            isDragging = false;
+        }
+            
+        if (isDragging)
+        {
+            CameraObj.transform.position = origin - difference;
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            CameraObj.transform.position = player.position + offset;
         }
     }
 }
