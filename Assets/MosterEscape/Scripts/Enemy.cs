@@ -21,28 +21,38 @@ public class Enemy : MonoBehaviour
     private Quaternion angleEnemy;
     private float degree;
 
-    // Evento para notificar cambios en la salud
-    //public event Action<float, float, string> OnHealthChanged;
+    // Evento para notificar cuando el enemigo muere
+    public event Action OnDestroyed;
 
     private bool isAttacking;
     private bool playerAttack = false;
 
     private void Start()
     {
-     
+        hp = maxHp;
     }
 
     private void Update()
     {
+        // Lógica de actualización (puedes agregar tu propia lógica aquí)
     }
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Enemy Takes Damage");
+        hp -= damage;
+        Debug.Log("Enemy Takes Damage: " + damage);
+
+        if (hp <= 0)
+        {
+            Die();
+        }
     }
 
     private void Die()
     {
         Debug.Log("Enemy Die");
+        // Lógica para manejar la muerte del enemigo (animaciones, efectos, etc.)
+        OnDestroyed?.Invoke(); // Invocar el evento para notificar que el enemigo ha muerto
+        Destroy(gameObject); // Destruir el GameObject
     }
 }
