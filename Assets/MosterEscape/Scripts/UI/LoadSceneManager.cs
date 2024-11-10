@@ -62,12 +62,14 @@ public async void LoadScenes(List<string> sceneNames)
         Debug.Log($"Scene {sceneName} loaded to 90%.");
         totalProgress += progressPerScene;
     }
+
     await Task.Delay(200);
 
     foreach (var scene in scenesToActivate)
     {
         scene.allowSceneActivation = true;
     }
+    await Task.Delay(300);
 
     Debug.Log("All scenes loaded and activated.");
     _loader.SetActive(false);

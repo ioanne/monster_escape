@@ -49,7 +49,7 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        // Obtener la posición de spawn específica
+        // Obtener la posiciï¿½n de spawn especï¿½fica
         Vector3 spawnPosition = settings.spawnPositions[spawnIndex];
 
         if (settings.enemyPrefab == null)
@@ -58,18 +58,18 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
-        // Instanciar el enemigo en la posición de spawn
+        // Instanciar el enemigo en la posiciï¿½n de spawn
         GameObject newEnemy = Instantiate(settings.enemyPrefab, spawnPosition, Quaternion.identity);
         newEnemy.SetActive(true); // Activar el enemigo
         Debug.Log("Spawned enemy at position: " + spawnPosition);
 
         // Obtener el componente Enemy y suscribirse al evento OnDestroyed
-        Enemy enemyComponent = newEnemy.GetComponent<Enemy>();
+        EnemyController enemyComponent = newEnemy.GetComponent<EnemyController>();
         if (enemyComponent != null)
         {
             enemyComponent.OnDestroyed += () =>
             {
-                // Iniciar la corrutina de reaparición cuando el enemigo muere
+                // Iniciar la corrutina de reapariciï¿½n cuando el enemigo muere
                 if (respawnCoroutines.ContainsKey(newEnemy))
                     StopCoroutine(respawnCoroutines[newEnemy]);
 

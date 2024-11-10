@@ -20,10 +20,13 @@ public class CharacterCombat : MonoBehaviour
     void Update()
     {
         HandleCombatInput();
+        HandleCancelTargetInput();
+
         if (enemySelected) // Siempre rota hacia el enemigo mientras esté seleccionado
         {
             RotateTowardsEnemy();
         }
+
         CheckDistanceToEnemy();
     }
 
@@ -54,15 +57,31 @@ public class CharacterCombat : MonoBehaviour
                     enemySelected = true;
                     isAttacking = false;
                     Debug.Log("New Enemy Selected: " + enemy.name);
+
+                    // Mostrar la barra de vida del enemigo
+                    UIManager.Instance.ShowEnemyHealthBar();
                 }
             }
             else if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Walkable"))
             {
-                // Cancela el ataque y el enfoque en el enemigo
+                // Cancela solo el ataque, pero mantiene el objetivo
                 CancelAttack();
                 characterMovement.MoveTo(hit.point); // Mueve al personaje hacia el punto seleccionado
                 Debug.Log("Attack canceled. Moving to walkable area");
             }
+        }
+    }
+
+    private void HandleCancelTargetInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Cancela el ataque y el objetivo seleccionado de inmediato
+            CancelTargetAndAttack();
+            Debug.Log("Attack and target canceled by pressing ESC");
+
+            // Ocultar la barra de vida del enemigo
+            UIManager.Instance.HideEnemyHealthBar();
         }
     }
 
@@ -77,7 +96,8 @@ public class CharacterCombat : MonoBehaviour
                 isAttacking = true;
                 playerAnimator.SetTrigger("AttackTrigger");
                 Debug.Log("Attacking: " + selectedEnemy.name);
-                Invoke(nameof(ResetAttack), 1.0f);
+                // No usar Invoke para asegurarse de que el ataque pueda ser cancelado de inmediato
+                StartCoroutine(ResetAttackAfterDelay(1.0f));
             }
         }
     }
@@ -95,15 +115,21 @@ public class CharacterCombat : MonoBehaviour
 
     private void CancelAttack()
     {
-        selectedEnemy = null; // Desselecciona al enemigo
-        enemySelected = false; // Reinicia la selección del enemigo
         isAttacking = false; // Reinicia el estado de ataque
-        playerAnimator.ResetTrigger("AttackTrigger"); // Opcional: reinicia el trigger de ataque
+        playerAnimator.ResetTrigger("AttackTrigger"); // Reinicia inmediatamente el trigger de ataque
         characterMovement.StopMovement(); // Detiene el movimiento
     }
 
-    private void ResetAttack()
+    private void CancelTargetAndAttack()
     {
+        CancelAttack(); // Cancela el ataque
+        selectedEnemy = null; // Desselecciona al enemigo
+        enemySelected = false; // Reinicia la selección del enemigo
+    }
+
+    private System.Collections.IEnumerator ResetAttackAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         isAttacking = false;
     }
 }
