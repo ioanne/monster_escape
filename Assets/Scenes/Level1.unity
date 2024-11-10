@@ -673,6 +673,8 @@ GameObject:
   - component: {fileID: 19936599}
   - component: {fileID: 19936598}
   - component: {fileID: 19936597}
+  - component: {fileID: 19936602}
+  - component: {fileID: 19936603}
   m_Layer: 3
   m_Name: Knight
   m_TagString: Player
@@ -730,7 +732,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19936596}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89181d6ee6a97514ca84eb80578e39e3, type: 3}
   m_Name: 
@@ -791,6 +793,36 @@ Transform:
   - {fileID: 1944267562}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &19936602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19936596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f55f3e76c1f0945baed6e5383a8930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 25
+  mainCamera: {fileID: 695256536}
+--- !u!114 &19936603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19936596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c55c1d2aa7df1418c721069078be5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  stoppingDistance: 2
 --- !u!1001 &20001823
 PrefabInstance:
   m_ObjectHideFlags: 0
