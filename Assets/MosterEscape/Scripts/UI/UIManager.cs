@@ -3,6 +3,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+    [SerializeField] private GameObject enemyHealthBar;
 
     private void Awake()
     {
@@ -39,6 +40,24 @@ public class UIManager : MonoBehaviour
         if (panel != null)
         {
             panel.SetActive(false);
+        }
+    }
+
+    // Método para mostrar la barra de vida del enemigo
+    public void ShowEnemyHealthBar()
+    {
+        if (enemyHealthBar != null)
+        {
+            enemyHealthBar.SetActive(true);
+        }
+    }
+
+    // Método para ocultar la barra de vida del enemigo
+    public void HideEnemyHealthBar()
+    {
+        if (enemyHealthBar != null)
+        {
+            enemyHealthBar.SetActive(false);
         }
     }
 }

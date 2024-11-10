@@ -16,16 +16,16 @@ public class BootstrapLoader : MonoBehaviour
         // Cargar la escena de loading
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
 
-        // Esperar hasta que la escena esté cargada
+        // Esperar hasta que la escena este cargada
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
 
-        // Ahora que la escena de loading está cargada, podemos acceder al LoadSceneManager
+        // Ahora que la escena de loading este cargada, podemos acceder al LoadSceneManager
         if (LoadSceneManager.instance != null)
         {
-            List<string> scenesToLoad = new List<string> { "PlayerUIScene", "Level1Test" };
+            List<string> scenesToLoad = new List<string> { "PlayerUIScene", "Level1" };
             LoadSceneManager.instance.LoadScenes(scenesToLoad);
         }
         else

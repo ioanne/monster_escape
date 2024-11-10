@@ -670,9 +670,10 @@ GameObject:
   m_Component:
   - component: {fileID: 19936601}
   - component: {fileID: 19936600}
-  - component: {fileID: 19936599}
   - component: {fileID: 19936598}
   - component: {fileID: 19936597}
+  - component: {fileID: 19936602}
+  - component: {fileID: 19936603}
   m_Layer: 3
   m_Name: Knight
   m_TagString: Player
@@ -723,26 +724,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &19936599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19936596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89181d6ee6a97514ca84eb80578e39e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 25
-  mainCamera: {fileID: 695256536}
-  navAgent: {fileID: 0}
-  playerAnimator: {fileID: 0}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  swordCollider: {fileID: 0}
 --- !u!143 &19936600
 CharacterController:
   m_ObjectHideFlags: 0
@@ -791,6 +772,36 @@ Transform:
   - {fileID: 1944267562}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &19936602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19936596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91f55f3e76c1f0945baed6e5383a8930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 25
+  mainCamera: {fileID: 695256536}
+--- !u!114 &19936603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19936596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c55c1d2aa7df1418c721069078be5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  stoppingDistance: 2
 --- !u!1001 &20001823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5302,7 +5313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 297980290}
-  - component: {fileID: 297980291}
+  - component: {fileID: 297980292}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -5326,7 +5337,7 @@ Transform:
   - {fileID: 695256537}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &297980291
+--- !u!114 &297980292
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5335,13 +5346,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 297980289}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3d3dec2666608d42a0c9178564baa80, type: 3}
+  m_Script: {fileID: 11500000, guid: fc954346208a69b498fcc5bead0edfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 19936601}
   offset: {x: 0, y: 0, z: 0}
   smoothSpeed: 0.125
-  CameraObj: {fileID: 695256536}
 --- !u!1001 &299181695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14797,6 +14807,7 @@ GameObject:
   - component: {fileID: 754206073}
   - component: {fileID: 754206072}
   - component: {fileID: 754206071}
+  - component: {fileID: 754206075}
   m_Layer: 6
   m_Name: Skeleton_Minion
   m_TagString: Enemy
@@ -14836,7 +14847,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754206069}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e4fc1cc056634d45ae16eaf27444e1f, type: 3}
   m_Name: 
@@ -14923,6 +14934,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &754206075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754206069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fecf6c420db4934a8f5fcc35e719820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 100
+  defense: 3
+  attackPower: 10
+  animator: {fileID: 754206074}
+  navMeshAgent: {fileID: 754206072}
+  detectionRadius: 5
+  attackDistance: 2
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 8
+  attackSound: {fileID: 0}
 --- !u!4 &754410835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3692131b1d80d9c4888cca5d03fe1615,
