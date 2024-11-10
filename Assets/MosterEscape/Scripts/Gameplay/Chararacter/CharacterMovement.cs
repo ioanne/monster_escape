@@ -3,8 +3,8 @@ using UnityEngine.AI;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public Camera mainCamera;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private Camera mainCamera;
     private NavMeshAgent navAgent;
     private Animator playerAnimator;
 
@@ -12,47 +12,52 @@ public class CharacterMovement : MonoBehaviour
     {
         navAgent = GetComponent<NavMeshAgent>();
         playerAnimator = GetComponent<Animator>();
-
-        if (mainCamera == null)
-        {
-            mainCamera = Camera.main;
-        }
+        mainCamera = mainCamera ?? Camera.main;
     }
 
     void Update()
     {
-        AnimatorVariablesControlles();
-        
+        HandleMovementInput();
+        UpdateAnimator();
+    }
+
+    private void HandleMovementInput()
+    {
         if (Input.GetMouseButtonDown(0))
         {
-            MoveCharacter();
-        }
-    }
-
-    void MoveCharacter()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            // Solo mover al personaje si se ha hecho clic en una superficie "Walkable"
-            if (hit.collider.CompareTag("Walkable"))
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Walkable"))
             {
-                navAgent.destination = hit.point;
+                MoveTo(hit.point);
             }
-            Debug.Log(hit.collider.tag);
         }
     }
 
-    void AnimatorVariablesControlles()
+    public void MoveTo(Vector3 destination)
     {
-        if (navAgent.velocity.sqrMagnitude == 0f)
-        {
-            playerAnimator.SetBool("IsRunning", false);
-        }
-        else
-        {
-            playerAnimator.SetBool("IsRunning", true);
-        }
+        navAgent.destination = destination;
+        navAgent.isStopped = false;
+        navAgent.stoppingDistance = 0f; // Restablece la distancia de parada
+        Debug.Log("Moving to: " + destination);
+    }
+
+    public void MoveToTarget(Transform target, float stoppingDistance)
+    {
+        navAgent.destination = target.position;
+        navAgent.stoppingDistance = stoppingDistance;
+        navAgent.isStopped = false;
+        Debug.Log("Moving to target: " + target.name);
+    }
+
+    public void StopMovement()
+    {
+        navAgent.isStopped = true;
+        Debug.Log("Movement stopped");
+    }
+
+    private void UpdateAnimator()
+    {
+        bool isRunning = navAgent.velocity.sqrMagnitude > 0f;
+        playerAnimator.SetBool("IsRunning", isRunning);
     }
 }

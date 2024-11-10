@@ -1,143 +1,109 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CharacterCombat : MonoBehaviour
 {
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private float stoppingDistance = 2f; // Distancia mínima para detenerse frente al enemigo
+    [SerializeField] private float stoppingDistance = 2f;
     private Animator playerAnimator;
-    private MeshCollider swordCollider;
-    private NavMeshAgent navAgent; // Referencia al NavMeshAgent
-    private GameObject selectedEnemy; // Variable para almacenar el enemigo seleccionado
-    private bool isAttacking = false; // Bandera para controlar el estado de ataque
-    private bool enemySelected = false; // Bandera para verificar si un enemigo está seleccionado
+    private GameObject selectedEnemy;
+    private bool isAttacking = false;
+    private bool enemySelected = false;
+
+    private CharacterMovement characterMovement; // Referencia a CharacterMovement
 
     void Start()
     {
         playerAnimator = GetComponent<Animator>();
-        swordCollider = GetComponentInChildren<MeshCollider>();
-        navAgent = GetComponent<NavMeshAgent>(); // Obtén el componente NavMeshAgent
-        navAgent.stoppingDistance = stoppingDistance; // Establece la distancia de parada
+        characterMovement = GetComponent<CharacterMovement>(); // Obtén el componente CharacterMovement
     }
 
     void Update()
     {
-        HandleInput();
+        HandleCombatInput();
+        if (enemySelected) // Siempre rota hacia el enemigo mientras esté seleccionado
+        {
+            RotateTowardsEnemy();
+        }
         CheckDistanceToEnemy();
     }
 
-    void HandleInput()
+    private void HandleCombatInput()
     {
-        if (Input.GetMouseButtonDown(0)) // Detecta un clic del mouse
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            // Verifica si el raycast golpea un enemigo
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, enemyLayer))
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, enemyLayer))
             {
                 GameObject enemy = hit.collider.gameObject;
-
                 if (selectedEnemy == enemy)
                 {
                     if (enemySelected)
                     {
                         // Si el enemigo ya está seleccionado, moverse hacia él y atacar
-                        MoveToEnemy();
+                        characterMovement.MoveToTarget(enemy.transform, stoppingDistance);
                     }
                     else
                     {
-                        // Selecciona el enemigo
                         enemySelected = true;
                         Debug.Log("Enemy Selected: " + enemy.name);
                     }
                 }
                 else
                 {
-                    // Selecciona un nuevo enemigo
                     selectedEnemy = enemy;
                     enemySelected = true;
-                    isAttacking = false; // Reinicia el estado de ataque
-                    Debug.Log("Enemy Selected: " + enemy.name);
+                    isAttacking = false;
+                    Debug.Log("New Enemy Selected: " + enemy.name);
                 }
             }
-            // Verifica si el raycast golpea un área con el Tag "Walkable"
             else if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Walkable"))
             {
-                // Cancela el ataque y mueve al personaje hacia la posición seleccionada
+                // Cancela el ataque y el enfoque en el enemigo
                 CancelAttack();
-                navAgent.destination = hit.point; // Mover al personaje hacia el punto seleccionado
-                navAgent.isStopped = false; // Permitir el movimiento
-                navAgent.stoppingDistance = 0f; // Restablece la distancia de parada
+                characterMovement.MoveTo(hit.point); // Mueve al personaje hacia el punto seleccionado
                 Debug.Log("Attack canceled. Moving to walkable area");
             }
         }
     }
 
-    void MoveToEnemy()
+    private void CheckDistanceToEnemy()
     {
         if (selectedEnemy != null)
         {
-            navAgent.isStopped = false; // Permitir que el NavMeshAgent se mueva
-            navAgent.stoppingDistance = stoppingDistance; // Establece la distancia de parada
-            navAgent.destination = selectedEnemy.transform.position; // Moverse hacia el enemigo
-            Debug.Log("Moving to: " + selectedEnemy.name);
-        }
-    }
-
-    void CancelAttack()
-    {
-        selectedEnemy = null; // Desselecciona al enemigo
-        enemySelected = false; // Reinicia la selección del enemigo
-        isAttacking = false; // Reinicia el estado de ataque
-        navAgent.isStopped = false; // Permitir que el NavMeshAgent se mueva
-        playerAnimator.ResetTrigger("AttackTrigger"); // Opcional: reinicia el trigger de ataque si es necesario
-    }
-
-    void CheckDistanceToEnemy()
-    {
-        if (selectedEnemy != null)
-        {
-            float distanceToEnemy = Vector3.Distance(transform.position, selectedEnemy.transform.position);
-
-            // Rotar continuamente hacia el enemigo
-            RotateTowardsEnemy();
-
-            if (distanceToEnemy <= stoppingDistance && !isAttacking)
+            float distance = Vector3.Distance(transform.position, selectedEnemy.transform.position);
+            if (distance <= stoppingDistance && !isAttacking)
             {
-                // Detener el movimiento y atacar si está lo suficientemente cerca
-                navAgent.isStopped = true;
-                isAttacking = true; // Cambia el estado a atacando
+                characterMovement.StopMovement(); // Detener el movimiento antes de atacar
+                isAttacking = true;
                 playerAnimator.SetTrigger("AttackTrigger");
                 Debug.Log("Attacking: " + selectedEnemy.name);
-
-                // Reiniciar el estado de ataque después de un tiempo (opcional)
-                Invoke(nameof(ResetAttack), 1.0f); // 1 segundo después del ataque, reinicia el estado
+                Invoke(nameof(ResetAttack), 1.0f);
             }
         }
     }
 
-    void RotateTowardsEnemy()
+    private void RotateTowardsEnemy()
     {
         if (selectedEnemy != null)
         {
             Vector3 direction = (selectedEnemy.transform.position - transform.position).normalized;
-            direction.y = 0; // Asegura que la rotación solo ocurra en el eje y
+            direction.y = 0; // Asegura que la rotación solo ocurra en el eje Y
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * 360f);
         }
     }
 
-    void ResetAttack()
+    private void CancelAttack()
     {
-        isAttacking = false; // Permite nuevos ataques
+        selectedEnemy = null; // Desselecciona al enemigo
+        enemySelected = false; // Reinicia la selección del enemigo
+        isAttacking = false; // Reinicia el estado de ataque
+        playerAnimator.ResetTrigger("AttackTrigger"); // Opcional: reinicia el trigger de ataque
+        characterMovement.StopMovement(); // Detiene el movimiento
     }
 
-    void OnTriggerEnter(Collider other)
+    private void ResetAttack()
     {
-        if (other.CompareTag("Enemy"))
-        {
-            Debug.Log("Hit to Enemy: " + other.name);
-        }
+        isAttacking = false;
     }
 }
