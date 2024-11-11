@@ -3732,6 +3732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHealthBar: {fileID: 223732264}
+  playerHealthBar: {fileID: 874849150}
 --- !u!1 &746800431
 GameObject:
   m_ObjectHideFlags: 0
@@ -4125,7 +4126,7 @@ GameObject:
   - component: {fileID: 874849151}
   - component: {fileID: 874849152}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5865,7 +5866,7 @@ GameObject:
   - component: {fileID: 1136965271}
   - component: {fileID: 1136965270}
   m_Layer: 5
-  m_Name: Text_Value
+  m_Name: text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6834,7 +6835,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -6.543579, y: -0.00024414062}
+  m_AnchoredPosition: {x: -6.543457, y: -0.00024414062}
   m_SizeDelta: {x: -12.2227, y: 0}
   m_Pivot: {x: 0.535405, y: 0.42756638}
 --- !u!1 &1330800256
@@ -8247,7 +8248,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5.999878, y: 386.77832}
+  m_AnchoredPosition: {x: -6, y: 386.77832}
   m_SizeDelta: {x: -70.02161, y: -794}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1612791163
@@ -10071,7 +10072,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.029102266, y: 0.21377726}
   m_AnchorMax: {x: 0.5, y: 0.8795941}
-  m_AnchoredPosition: {x: 2, y: 3.0390015}
+  m_AnchoredPosition: {x: 2, y: 3.0390625}
   m_SizeDelta: {x: -4, y: 3.040039}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1905568632
@@ -10647,7 +10648,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.88610905}
-  m_AnchoredPosition: {x: -0.0025634766, y: 1.5996094}
+  m_AnchoredPosition: {x: -0.0024414062, y: 1.5996094}
   m_SizeDelta: {x: -0.0050049, y: 3.1523}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2124178367

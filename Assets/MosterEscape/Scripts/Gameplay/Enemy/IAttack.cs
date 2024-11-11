@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface IAttack
 {
-    void Attack();
+    void Initialize(GameObject player);
+    void AttemptAttack();
     void StopAttacking();
 }

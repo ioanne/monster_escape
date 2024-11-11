@@ -674,6 +674,7 @@ GameObject:
   - component: {fileID: 19936597}
   - component: {fileID: 19936602}
   - component: {fileID: 19936603}
+  - component: {fileID: 19936604}
   m_Layer: 3
   m_Name: Knight
   m_TagString: Player
@@ -795,13 +796,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 19936596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17c55c1d2aa7df1418c721069078be5a, type: 3}
+  m_Script: {fileID: 11500000, guid: e54c1a8937a44bb43b665d3bdcf08a05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
   stoppingDistance: 2
+--- !u!114 &19936604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19936596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcfc637b8edd56542b71c44975e24181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  strength: 10
+  defense: 5
+  speed: 5
 --- !u!1001 &20001823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14806,8 +14823,10 @@ GameObject:
   - component: {fileID: 754206074}
   - component: {fileID: 754206073}
   - component: {fileID: 754206072}
-  - component: {fileID: 754206071}
   - component: {fileID: 754206075}
+  - component: {fileID: 754206078}
+  - component: {fileID: 754206077}
+  - component: {fileID: 754206079}
   m_Layer: 6
   m_Name: Skeleton_Minion
   m_TagString: Enemy
@@ -14840,36 +14859,6 @@ Transform:
   - {fileID: 1355598674}
   m_Father: {fileID: 2076364948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &754206071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 754206069}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e4fc1cc056634d45ae16eaf27444e1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 100
-  defense: 3
-  attack: 10
-  minionAnimator: {fileID: 754206074}
-  minionNav: {fileID: 754206072}
-  targetDistance: 15
-  attackDistance: 1.5
-  attackSound: {fileID: 0}
-  radius: 7
-  angle: 90
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 8
-  obstructionMask:
-    serializedVersion: 2
-    m_Bits: 0
-  playerRef: {fileID: 0}
-  canSeePlayer: 0
 --- !u!195 &754206072
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -14946,17 +14935,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fecf6c420db4934a8f5fcc35e719820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
-  defense: 3
-  attackPower: 10
-  animator: {fileID: 754206074}
-  navMeshAgent: {fileID: 754206072}
   detectionRadius: 5
   attackDistance: 2
   targetMask:
     serializedVersion: 2
     m_Bits: 8
+  animator: {fileID: 754206074}
+  navMeshAgent: {fileID: 754206072}
+--- !u!114 &754206077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754206069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a724927ba6ce84aa32b4df7e731b3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &754206078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754206069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6762e2932a3636468a54fc820154b40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   attackSound: {fileID: 0}
+  animator: {fileID: 754206074}
+--- !u!114 &754206079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754206069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d5f42f8421d5b4d9d1c0b332c02ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 100
+  defense: 3
+  attackPower: 50
+  attackCooldown: 2
+  attackSpeed: 2
 --- !u!4 &754410835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3692131b1d80d9c4888cca5d03fe1615,
