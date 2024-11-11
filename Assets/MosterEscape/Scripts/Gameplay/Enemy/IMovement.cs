@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public interface IMovement
 {
-    void MoveTo(Vector3 destination);
-    void Stop();
-    void FaceTarget(Transform target);
+    void Initialize(GameObject player, NavMeshAgent agent, Animator anim);
+    void MoveToPlayer();
+    void StopMoving();
+    void FaceTarget();
 }

@@ -1,25 +1,43 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class EnemyAttack : IAttack
+public class EnemyAttack : MonoBehaviour, IAttack
 {
-    private readonly Animator animator;
-    private readonly NavMeshAgent navMeshAgent;
-    private bool isAttacking;
+    [SerializeField] private AudioClip attackSound;
+    [SerializeField] private Animator animator;
 
-    public EnemyAttack(Animator animator, NavMeshAgent navMeshAgent)
+    private Enemy enemy;
+    private AudioSource audioSource;
+    private GameObject playerRef;
+    private Character playerCharacter;
+    private bool isAttacking;
+    private float lastAttackTime;
+
+    public void Initialize(GameObject player)
     {
-        this.animator = animator;
-        this.navMeshAgent = navMeshAgent;
+        playerRef = player;
+        playerCharacter = player.GetComponent<Character>();
+        audioSource = GetComponent<AudioSource>();
+        enemy = GetComponent<Enemy>(); // Obtener Enemy
     }
 
-    public void Attack()
+    public void AttemptAttack()
     {
-        if (!isAttacking)
+        if (!isAttacking && Time.time >= lastAttackTime + enemy.GetAttackCooldown() / enemy.GetAttackSpeed())
         {
             isAttacking = true;
+            lastAttackTime = Time.time;
             animator.SetBool("IsAttacking", true);
-            navMeshAgent.isStopped = true;
+            animator.speed = enemy.GetAttackSpeed();
+
+            PlayAttackSound();
+
+            if (playerCharacter != null)
+            {
+                playerCharacter.TakeDamage((int)enemy.GetAttackPower());
+            }
+
+            StartCoroutine(ResetAttack());
         }
     }
 
@@ -29,7 +47,23 @@ public class EnemyAttack : IAttack
         {
             isAttacking = false;
             animator.SetBool("IsAttacking", false);
-            navMeshAgent.isStopped = false;
+            animator.speed = 1f;
         }
+    }
+
+    private void PlayAttackSound()
+    {
+        if (audioSource != null && attackSound != null)
+        {
+            audioSource.PlayOneShot(attackSound);
+        }
+    }
+
+    private IEnumerator ResetAttack()
+    {
+        yield return new WaitForSeconds(1f / enemy.GetAttackSpeed());
+        isAttacking = false;
+        animator.SetBool("IsAttacking", false);
+        animator.speed = 1f;
     }
 }
