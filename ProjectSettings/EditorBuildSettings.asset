@@ -24,9 +24,6 @@ EditorBuildSettings:
     path: Assets/MosterEscape/Scenes/GameOverScene.unity
     guid: dd76df135cdfdc54586e06092d8e9418
   - enabled: 1
-    path: Assets/Scenes/Level1Test.unity
-    guid: dd403a9e2ec103045852a326a8711445
-  - enabled: 1
-    path: Assets/Scenes/Level1.unity
-    guid: 03e9df442e3639e4c98573023e73662e
+    path: Assets/MosterEscape/Scenes/Level1.unity
+    guid: 76a96717f3c8629408a4ae6395e65643
   m_configObjects: {}

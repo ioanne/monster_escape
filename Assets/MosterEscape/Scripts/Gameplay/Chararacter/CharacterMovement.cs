@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -21,19 +22,26 @@ public class CharacterMovement : MonoBehaviour
         UpdateAnimator();
     }
 
-    private void HandleMovementInput()
+    public void HandleMovementInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Walkable"))
             {
+                if (EventSystem.current.IsPointerOverGameObject())
+                {
+                    Debug.Log("Clicked on UI");
+                    return;
+                }
+                Debug.Log("Clicked on anothers");
                 MoveTo(hit.point);
+
             }
         }
     }
 
-    public void MoveTo(Vector3 destination)
+    private void MoveTo(Vector3 destination)
     {
         navAgent.destination = destination;
         navAgent.isStopped = false;
