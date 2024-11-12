@@ -69,7 +69,7 @@ public class CharacterCombatMovement : MonoBehaviour
                 {
                     // Si el raycast golpea un área "walkable", cancela el ataque y mueve al personaje
                     CancelAttack();
-                    characterMovement.MoveTo(hit.point);
+                    characterMovement.HandleMovementInput();
                     Debug.Log("Attack canceled. Moving to walkable area");
                 }
             }

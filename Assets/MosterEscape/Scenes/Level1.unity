@@ -7786,7 +7786,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: a08e706ba280d574c95db17803cb7326, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 7e3be6d5f9ba1474e8860b327680b21e, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &423508289
 Transform:
@@ -14982,7 +14982,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 100
   defense: 3
-  attackPower: 50
+  attackPower: 10
   attackCooldown: 2
   attackSpeed: 2
 --- !u!4 &754410835 stripped
