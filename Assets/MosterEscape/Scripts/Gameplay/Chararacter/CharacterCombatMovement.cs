@@ -4,6 +4,7 @@ public class CharacterCombatMovement : MonoBehaviour
 {
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private float stoppingDistance = 2f;
+    [SerializeField] private int attackDamage = 20; // Daño infligido por el personaje
     private Animator playerAnimator;
     private GameObject selectedEnemy;
     private bool isAttacking = false;
@@ -56,13 +57,30 @@ public class CharacterCombatMovement : MonoBehaviour
                     }
                     else
                     {
+                        // Desuscribirse del evento del enemigo anterior si hay uno seleccionado
+                        if (selectedEnemy != null)
+                        {
+                            Enemy previousEnemy = selectedEnemy.GetComponent<Enemy>();
+                            if (previousEnemy != null)
+                            {
+                                previousEnemy.OnEnemyDeath -= CancelTargetAndHideHealthBar;
+                            }
+                        }
+
                         selectedEnemy = enemy;
                         enemySelected = true;
                         isAttacking = false;
                         Debug.Log("New Enemy Selected: " + enemy.name);
 
+                        // Suscribirse al evento de muerte del enemigo nuevo
+                        Enemy enemyComponent = selectedEnemy.GetComponent<Enemy>();
+                        if (enemyComponent != null)
+                        {
+                            enemyComponent.OnEnemyDeath += CancelTargetAndHideHealthBar;
+                        }
+
                         // Mostrar la barra de vida del enemigo
-                        UIManager.Instance.ShowEnemyHealthBar();
+                        UIManager.Instance.ShowEnemyHealthBar(enemyComponent);
                     }
                 }
                 else if (hit.collider.CompareTag("Walkable"))
@@ -85,7 +103,14 @@ public class CharacterCombatMovement : MonoBehaviour
             Debug.Log("Attack and target canceled by pressing ESC");
 
             // Ocultar la barra de vida del enemigo
-            UIManager.Instance.HideEnemyHealthBar();
+            if (selectedEnemy != null)
+            {
+                Enemy enemyComponent = selectedEnemy.GetComponent<Enemy>();
+                if (enemyComponent != null)
+                {
+                    UIManager.Instance.HideEnemyHealthBar(enemyComponent);
+                }
+            }
         }
     }
 
@@ -100,6 +125,14 @@ public class CharacterCombatMovement : MonoBehaviour
                 isAttacking = true;
                 playerAnimator.SetTrigger("AttackTrigger");
                 Debug.Log("Attacking: " + selectedEnemy.name);
+
+                // Infligir daño al enemigo
+                Enemy enemy = selectedEnemy.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(attackDamage); // Llama a TakeDamage del enemigo
+                }
+
                 // No usar Invoke para asegurarse de que el ataque pueda ser cancelado de inmediato
                 StartCoroutine(ResetAttackAfterDelay(1.0f));
             }
@@ -129,6 +162,20 @@ public class CharacterCombatMovement : MonoBehaviour
         CancelAttack(); // Cancela el ataque
         selectedEnemy = null; // Desselecciona al enemigo
         enemySelected = false; // Reinicia la selección del enemigo
+    }
+
+    private void CancelTargetAndHideHealthBar()
+    {
+        // Solo cancelar el objetivo si el enemigo eliminado es el seleccionado
+        if (selectedEnemy != null)
+        {
+            Enemy enemyComponent = selectedEnemy.GetComponent<Enemy>();
+            if (enemyComponent != null && enemyComponent.IsDead())
+            {
+                CancelTargetAndAttack(); // Cancela el objetivo y el ataque
+                UIManager.Instance.HideEnemyHealthBar(enemyComponent); // Oculta la barra de salud del enemigo
+            }
+        }
     }
 
     private System.Collections.IEnumerator ResetAttackAfterDelay(float delay)

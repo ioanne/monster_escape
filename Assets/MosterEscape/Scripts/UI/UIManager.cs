@@ -1,13 +1,16 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-    [SerializeField] private GameObject enemyHealthBar;
+    [SerializeField] private GameObject enemyHealthBar; // Prefab de la barra de salud del enemigo
     [SerializeField] private GameObject playerHealthBar;
 
+    private Dictionary<Enemy, GameObject> enemyHealthBars = new Dictionary<Enemy, GameObject>();
+    private Enemy targetEnemy; // El enemigo objetivo actualmente seleccionado
 
     private void Awake()
     {
@@ -47,32 +50,32 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Método para mostrar la barra de vida del enemigo
-    public void ShowEnemyHealthBar()
+    public void ShowEnemyHealthBar(Enemy enemy)
     {
-        if (enemyHealthBar != null)
-        {
-            enemyHealthBar.SetActive(true);
-        }
+        targetEnemy = enemy; // Asigna el enemigo objetivo
+        enemyHealthBar.SetActive(true); // Muestra la barra de salud
+        UpdateEnemyHealthBar(targetEnemy, targetEnemy.CurrentHealth, targetEnemy.MaxHealth); // Actualiza la barra de salud
     }
 
-    // Método para ocultar la barra de vida del enemigo
-    public void HideEnemyHealthBar()
+    public void UpdateEnemyHealthBar(Enemy enemy, int currentHealth, int maxHealth)
     {
-        if (enemyHealthBar != null)
+        if (targetEnemy == enemy && enemyHealthBar != null) // Asegúrate de que se actualice solo para el enemigo objetivo
         {
-            enemyHealthBar.SetActive(false);
-        }
-    }
+            Slider enemyHealthSlider = enemyHealthBar.GetComponentInChildren<Slider>();
+            TextMeshProUGUI enemyHealthText = enemyHealthBar.GetComponentInChildren<TextMeshProUGUI>();
 
-    // Método para actualizar la barra de salud del enemigo
-    public void UpdateEnemyHealthBar(int currentHealth, int maxHealth)
-    {
-        if (enemyHealthBar != null)
-        {
-            Slider enemyHealthSlider = enemyHealthBar.GetComponent<Slider>();
             enemyHealthSlider.maxValue = maxHealth;
             enemyHealthSlider.value = currentHealth;
+            enemyHealthText.text = $"{currentHealth}/{maxHealth}";
+        }
+    }
+
+    public void HideEnemyHealthBar(Enemy enemy)
+    {
+        if (targetEnemy == enemy && enemyHealthBar != null)
+        {
+            enemyHealthBar.SetActive(false); // Oculta la barra de salud
+            targetEnemy = null; // Limpia el objetivo
         }
     }
 
@@ -84,7 +87,6 @@ public class UIManager : MonoBehaviour
             TextMeshProUGUI playerHealthText = playerHealthBar.GetComponentInChildren<TextMeshProUGUI>();
             playerHealthSlider.maxValue = maxHealth;
             playerHealthSlider.value = currentHealth;
-            // text mesh pro
             playerHealthText.text = $"{currentHealth}/{maxHealth}";
         }
     }

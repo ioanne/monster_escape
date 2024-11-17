@@ -8,23 +8,25 @@ public class Character : MonoBehaviour
     [SerializeField] private int strength = 10;
     [SerializeField] private int defense = 5;
     [SerializeField] private float speed = 5f;
+    [SerializeField] private int attackDamage = 20;
+    [SerializeField] private float attackRange = 5f;
+    [SerializeField] private float regenerationInterval = 3f; // Intervalo de regeneración
+    [SerializeField] private int regenerationAmount = 2; // Cantidad de vida que se regenera
 
     void Awake()
     {
         characterStats = new CharacterStats(strength, defense, speed, maxHealth);
-        healthSystem = new HealthSystem(maxHealth);
+        healthSystem = new HealthSystem(maxHealth, this, regenerationInterval, regenerationAmount);
 
         healthSystem.OnHealthChanged += UpdateHealthUI;
         healthSystem.OnDeath += HandleDeath;
     }
 
-    // Método para recibir daño
     public void TakeDamage(int damage)
     {
         healthSystem.TakeDamage(damage);
     }
 
-    // Método para curarse
     public void Heal(int healAmount)
     {
         healthSystem.Heal(healAmount);
@@ -37,7 +39,6 @@ public class Character : MonoBehaviour
         LoadSceneManager.instance.LoadSceneSynchronously(sceneName);
     }
 
-    // Método para actualizar la UI
     private void UpdateHealthUI(int currentHealth, int maxHealth)
     {
         UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
