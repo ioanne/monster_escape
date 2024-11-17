@@ -1,43 +1,58 @@
 using UnityEngine;
+using System;
 
 public class Enemy : MonoBehaviour
 {
     [Header("General Stats")]
-    [SerializeField] private float maxHp = 100f;
-    [SerializeField] private float defense = 3f;
+    [SerializeField] private int maxHp = 100;
+    [SerializeField] private int defense = 3;
 
     [Header("Attack Stats")]
     [SerializeField] private float attackPower = 10f;
     [SerializeField] private float attackCooldown = 2f;
     [SerializeField] private float attackSpeed = 2f;
+    [SerializeField] private float regenerationInterval = 4f; // Intervalo de regeneración
+    [SerializeField] private int regenerationAmount = 1; // Cantidad de vida que se regenera
 
-    private float hp;
+    public int CurrentHealth => healthSystem.CurrentHealth;
+    public int MaxHealth => healthSystem.MaxHealth;
+
+    private HealthSystem healthSystem;
+
+    public event Action OnEnemyDeath;
 
     private void Awake()
     {
-        hp = maxHp;
+        healthSystem = new HealthSystem(maxHp, this, regenerationInterval, regenerationAmount);
+
+        healthSystem.OnHealthChanged += UpdateHealthUI;
+        healthSystem.OnDeath += Die;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
-        hp -= Mathf.Max(damage - defense, 0);
-        Debug.Log("Enemy Takes Damage: " + damage);
-        if (hp <= 0)
-        {
-            Die();
-        }
+        int finalDamage = Mathf.Max(damage - defense, 0);
+        healthSystem.TakeDamage(finalDamage);
+        Debug.Log("Enemy Takes Damage: " + finalDamage);
     }
 
     public bool IsDead()
     {
-        return hp <= 0;
+        return healthSystem.CurrentHealth <= 0;
     }
 
     private void Die()
     {
         Debug.Log("Enemy Die");
+        OnEnemyDeath?.Invoke();
         GetComponent<Animator>().SetBool("IsDeath", true);
         Destroy(gameObject, 2f);
+    }
+
+    private void UpdateHealthUI(int currentHealth, int maxHealth)
+    {
+        UIManager.Instance.UpdateEnemyHealthBar(this, currentHealth, maxHealth);
+        Debug.Log($"Enemy Health updated: {currentHealth}/{maxHealth}");
     }
 
     public float GetAttackPower()

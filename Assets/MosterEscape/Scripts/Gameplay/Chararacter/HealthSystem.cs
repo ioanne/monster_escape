@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class HealthSystem
 {
@@ -9,13 +10,24 @@ public class HealthSystem
     private int maxHealth;
     private int currentHealth;
 
-    public HealthSystem(int maxHealth)
+    private float regenerationInterval;
+    private int regenerationAmount;
+    private MonoBehaviour owner;
+
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
+
+    public HealthSystem(int maxHealth, MonoBehaviour owner, float regenInterval = 5f, int regenAmount = 1)
     {
         this.maxHealth = maxHealth;
         currentHealth = maxHealth;
+        this.owner = owner;
+        regenerationInterval = regenInterval;
+        regenerationAmount = regenAmount;
+
+        owner.StartCoroutine(RegenerateHealth());
     }
 
-    // Método para recibir daño
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -29,12 +41,20 @@ public class HealthSystem
         }
     }
 
-    // Método para curarse
     public void Heal(int healAmount)
     {
         currentHealth += healAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
+    private IEnumerator RegenerateHealth()
+    {
+        while (currentHealth > 0)
+        {
+            yield return new WaitForSeconds(regenerationInterval);
+            Heal(regenerationAmount);
+        }
     }
 }
