@@ -805,6 +805,7 @@ MonoBehaviour:
     m_Bits: 64
   stoppingDistance: 2
   attackDamage: 20
+  selectedEnemy: {fileID: 0}
 --- !u!114 &19936604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,6 +824,9 @@ MonoBehaviour:
   speed: 5
   attackDamage: 20
   attackRange: 5
+  interactionRange: 5
+  regenerationInterval: 3
+  regenerationAmount: 2
 --- !u!1001 &20001823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3804,35 +3808,56 @@ PrefabInstance:
       propertyPath: m_Name
       value: wall_doorway (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 3245047377962470163, guid: 52083fbb90c1dd440972df120d1179a7,
+        type: 3}
+      propertyPath: m_TagString
+      value: InteractableDoor
+      objectReference: {fileID: 0}
     - target: {fileID: 5980314168419120999, guid: 52083fbb90c1dd440972df120d1179a7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70712656
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5980314168419120999, guid: 52083fbb90c1dd440972df120d1179a7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 3.5527137e-15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5980314168419120999, guid: 52083fbb90c1dd440972df120d1179a7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7070871
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5980314168419120999, guid: 52083fbb90c1dd440972df120d1179a7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000115199086
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5980314168419120999, guid: 52083fbb90c1dd440972df120d1179a7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -89.997
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3245047377962470163, guid: 52083fbb90c1dd440972df120d1179a7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1829463559}
+    - targetCorrespondingSourceObject: {fileID: 3245047377962470163, guid: 52083fbb90c1dd440972df120d1179a7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1829463560}
+    - targetCorrespondingSourceObject: {fileID: 3245047377962470163, guid: 52083fbb90c1dd440972df120d1179a7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1829463561}
+    - targetCorrespondingSourceObject: {fileID: 3245047377962470163, guid: 52083fbb90c1dd440972df120d1179a7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1829463562}
   m_SourcePrefab: {fileID: 100100000, guid: 52083fbb90c1dd440972df120d1179a7, type: 3}
 --- !u!1001 &199271302
 PrefabInstance:
@@ -14989,6 +15014,8 @@ MonoBehaviour:
   attackPower: 10
   attackCooldown: 2
   attackSpeed: 2
+  regenerationInterval: 4
+  regenerationAmount: 1
 --- !u!4 &754410835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3692131b1d80d9c4888cca5d03fe1615,
@@ -31372,7 +31399,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpawnSettings:
-  - enemyPrefab: {fileID: 754206069}
+  - enemyName: Enemigo 1
+    enemyPrefab: {fileID: 754206069}
+    spawnPositions:
+    - {x: -1.13, y: 0.1, z: -42.73}
+    - {x: 37.672108, y: 0.059978485, z: -50.6227}
+    respawnTime: 0
+  - enemyName: Enemigo 2
+    enemyPrefab: {fileID: 754206069}
     spawnPositions:
     - {x: -1.13, y: 0.1, z: -42.73}
     - {x: 37.672108, y: 0.059978485, z: -50.6227}
@@ -34331,6 +34365,86 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828431395}
   m_Mesh: {fileID: -5379632889980691270, guid: 50cff93168f72124f8c0b3f6209c3f6d, type: 3}
+--- !u!1 &1829463555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3245047377962470163, guid: 52083fbb90c1dd440972df120d1179a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 197435643}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1829463559
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829463555}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.65
+  m_Center: {x: -0.82010096, y: 1.3749988, z: -0.000000834465}
+--- !u!114 &1829463560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829463555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7e773bad936a343b5b7f7d21315e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closedRotation: 0
+  openRotation: -89.997
+  transitionDuration: 1.5
+--- !u!64 &1829463561
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829463555}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7430001191524928491, guid: 52083fbb90c1dd440972df120d1179a7, type: 3}
+--- !u!208 &1829463562
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829463555}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 1.3750001, z: 0.38700002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.82000005, y: 1.3750001, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!4 &1832855060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a8fa22e9f78bfb459309358edb1b2b2,

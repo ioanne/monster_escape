@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Walkable
   - Enemy
+  - InteractableDoor
   layers:
   - Default
   - TransparentFX
