@@ -8,8 +8,8 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
     [SerializeField] private GameObject enemyHealthBar; // Prefab de la barra de salud del enemigo
     [SerializeField] private GameObject playerHealthBar;
+    [SerializeField] private GameObject doorInteractionMessage;
 
-    private Dictionary<Enemy, GameObject> enemyHealthBars = new Dictionary<Enemy, GameObject>();
     private Enemy targetEnemy; // El enemigo objetivo actualmente seleccionado
 
     private void Awake()
@@ -72,10 +72,12 @@ public class UIManager : MonoBehaviour
 
     public void HideEnemyHealthBar(Enemy enemy)
     {
-        if (targetEnemy == enemy && enemyHealthBar != null)
+        Debug.Log("Call to hide enemy health bar");
+        if (targetEnemy == enemy && enemyHealthBar != null) // Solo oculta si el enemigo coincide
         {
+            Debug.Log("Hiding enemy health bar");
             enemyHealthBar.SetActive(false); // Oculta la barra de salud
-            targetEnemy = null; // Limpia el objetivo
+            targetEnemy = null; // Reinicia el enemigo objetivo
         }
     }
 
@@ -88,6 +90,23 @@ public class UIManager : MonoBehaviour
             playerHealthSlider.maxValue = maxHealth;
             playerHealthSlider.value = currentHealth;
             playerHealthText.text = $"{currentHealth}/{maxHealth}";
+        }
+    }
+
+
+    public void ShowDoorInteractionMessage()
+    {
+        if (doorInteractionMessage != null)
+        {
+            doorInteractionMessage.SetActive(true); // Muestra el mensaje
+        }
+    }
+
+    public void HideDoorInteractionMessage()
+    {
+        if (doorInteractionMessage != null)
+        {
+            doorInteractionMessage.SetActive(false); // Oculta el mensaje
         }
     }
 }

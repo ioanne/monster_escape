@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class EnemySpawnSettings
 {
+    public string enemyName;
     public GameObject enemyPrefab;
     public List<Vector3> spawnPositions;
     public float respawnTime;

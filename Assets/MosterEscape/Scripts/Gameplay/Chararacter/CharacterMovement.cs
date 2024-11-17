@@ -31,12 +31,9 @@ public class CharacterMovement : MonoBehaviour
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
-                    Debug.Log("Clicked on UI");
                     return;
                 }
-                Debug.Log("Clicked on anothers");
                 MoveTo(hit.point);
-
             }
         }
     }
@@ -46,7 +43,6 @@ public class CharacterMovement : MonoBehaviour
         navAgent.destination = destination;
         navAgent.isStopped = false;
         navAgent.stoppingDistance = 0f; // Restablece la distancia de parada
-        Debug.Log("Moving to: " + destination);
     }
 
     public void MoveToTarget(Transform target, float stoppingDistance)
@@ -54,13 +50,17 @@ public class CharacterMovement : MonoBehaviour
         navAgent.destination = target.position;
         navAgent.stoppingDistance = stoppingDistance;
         navAgent.isStopped = false;
-        Debug.Log("Moving to target: " + target.name);
     }
 
     public void StopMovement()
     {
         navAgent.isStopped = true;
-        Debug.Log("Movement stopped");
+    }
+
+    public bool IsMoving()
+    {
+        // Devuelve true si el agente tiene un destino y se está moviendo
+        return navAgent.pathPending || navAgent.remainingDistance > navAgent.stoppingDistance;
     }
 
     private void UpdateAnimator()
