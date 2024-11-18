@@ -6,6 +6,8 @@ public class CharacterCombatMovement : MonoBehaviour
     [SerializeField] private float stoppingDistance = 2f;
     [SerializeField] private int attackDamage = 20;
     [SerializeField] private GameObject selectedEnemy;
+    [SerializeField] private AudioClip AttackSFX;
+
     private bool isAttacking = false;
     private bool enemySelected = false;
 
@@ -123,6 +125,7 @@ public class CharacterCombatMovement : MonoBehaviour
         characterMovement.StopMovement();
         isAttacking = true;
         playerAnimator.SetTrigger("AttackTrigger");
+        AudioManager.Instance.Playsound(AttackSFX);
 
         Enemy enemy = selectedEnemy.GetComponent<Enemy>();
         enemy?.TakeDamage(attackDamage);
