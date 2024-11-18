@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MosterEscape/Scenes/Level1.unity
     guid: 76a96717f3c8629408a4ae6395e65643
+  - enabled: 1
+    path: Assets/MosterEscape/Scenes/Level2.unity
+    guid: 9db79dbc7c8155746a5d069ea0921e0e
   m_configObjects: {}
