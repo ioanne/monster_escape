@@ -13,6 +13,8 @@ public class Character : MonoBehaviour
     [SerializeField] private float interactionRange = 4f; // Rango de interacción con la puerta
     [SerializeField] private float regenerationInterval = 3f; // Intervalo de regeneración
     [SerializeField] private int regenerationAmount = 2; // Cantidad de vida que se regenera
+    [SerializeField] private AudioClip DamageTakeSFX;
+    [SerializeField] private AudioClip DeadSFX;
 
     void Awake()
     {
@@ -30,6 +32,7 @@ public class Character : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        AudioManager.Instance.Playsound(DamageTakeSFX);
         healthSystem.TakeDamage(damage);
     }
 
@@ -42,7 +45,10 @@ public class Character : MonoBehaviour
 
             if (distanceToDoor <= interactionRange)
             {
-                UIManager.Instance.ShowDoorInteractionMessage(); // Mostrar el mensaje si la puerta está dentro del rango
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.ShowDoorInteractionMessage();
+                }
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -52,12 +58,18 @@ public class Character : MonoBehaviour
             }
             else
             {
-                UIManager.Instance.HideDoorInteractionMessage(); // Ocultar el mensaje si la puerta está fuera del rango
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.HideDoorInteractionMessage();
+                }
             }
         }
         else
         {
-            UIManager.Instance.HideDoorInteractionMessage(); // Ocultar el mensaje si no hay puerta cerca
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.HideDoorInteractionMessage();
+            }
         }
     }
 
@@ -94,6 +106,7 @@ public class Character : MonoBehaviour
 
     private void HandleDeath()
     {
+        AudioManager.Instance.Playsound(DeadSFX);
         Debug.Log("Character has died.");
         string sceneName = "GameOverScene";
         LoadSceneManager.instance.LoadSceneSynchronously(sceneName);
@@ -101,7 +114,16 @@ public class Character : MonoBehaviour
 
     private void UpdateHealthUI(int currentHealth, int maxHealth)
     {
-        UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+        // Verificar si el UIManager está disponible antes de actualizar la barra de vida
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+        }
+        else
+        {
+            Debug.LogWarning("UIManager.Instance is null. Health UI could not be updated.");
+        }
+
         Debug.Log($"Health updated: {currentHealth}/{maxHealth}");
     }
 }

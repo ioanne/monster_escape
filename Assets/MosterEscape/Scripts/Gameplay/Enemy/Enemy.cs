@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float attackSpeed = 2f;
     [SerializeField] private float regenerationInterval = 4f; // Intervalo de regeneración
     [SerializeField] private int regenerationAmount = 1; // Cantidad de vida que se regenera
+    [SerializeField] private AudioClip DeadSFX;
 
     public int CurrentHealth => healthSystem.CurrentHealth;
     public int MaxHealth => healthSystem.MaxHealth;
@@ -43,6 +44,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        AudioManager.Instance.Playsound(DeadSFX);
         Debug.Log("Enemy Die");
         OnEnemyDeath?.Invoke();
         GetComponent<Animator>().SetBool("IsDeath", true);
@@ -51,7 +53,16 @@ public class Enemy : MonoBehaviour
 
     private void UpdateHealthUI(int currentHealth, int maxHealth)
     {
-        UIManager.Instance.UpdateEnemyHealthBar(this, currentHealth, maxHealth);
+        // Verificar si UIManager está disponible antes de actualizar la barra de vida
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateEnemyHealthBar(this, currentHealth, maxHealth);
+        }
+        else
+        {
+            Debug.LogWarning("UIManager.Instance is null. Enemy health UI could not be updated.");
+        }
+
         Debug.Log($"Enemy Health updated: {currentHealth}/{maxHealth}");
     }
 
