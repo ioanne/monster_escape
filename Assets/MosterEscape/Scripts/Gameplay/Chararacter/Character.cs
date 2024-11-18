@@ -13,6 +13,8 @@ public class Character : MonoBehaviour
     [SerializeField] private float interactionRange = 4f; // Rango de interacción con la puerta
     [SerializeField] private float regenerationInterval = 3f; // Intervalo de regeneración
     [SerializeField] private int regenerationAmount = 2; // Cantidad de vida que se regenera
+    [SerializeField] private AudioClip DamageTakeSFX;
+    [SerializeField] private AudioClip DeadSFX;
 
     void Awake()
     {
@@ -30,6 +32,7 @@ public class Character : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        AudioManager.Instance.Playsound(DamageTakeSFX);
         healthSystem.TakeDamage(damage);
     }
 
@@ -94,6 +97,7 @@ public class Character : MonoBehaviour
 
     private void HandleDeath()
     {
+        AudioManager.Instance.Playsound(DeadSFX);
         Debug.Log("Character has died.");
         string sceneName = "GameOverScene";
         LoadSceneManager.instance.LoadSceneSynchronously(sceneName);
