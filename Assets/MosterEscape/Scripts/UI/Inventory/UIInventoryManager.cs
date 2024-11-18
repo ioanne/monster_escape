@@ -28,14 +28,14 @@ public class UIInventoryManager : MonoBehaviour
     {
         switch (itemName)
         {
-            case "key":
+            case "Key":
                 keysText.text = quantity.ToString();
                 keysText2.text = quantity.ToString();
                 break;
             case "HealthPotion":
                 healthPotionsText.text = quantity.ToString();
                 break;
-            case "ManaPotion":
+            case "EnergyPotions":
                 energyPotionsText.text = quantity.ToString();
                 break;
             default:
