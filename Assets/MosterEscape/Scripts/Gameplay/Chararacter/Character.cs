@@ -42,7 +42,10 @@ public class Character : MonoBehaviour
 
             if (distanceToDoor <= interactionRange)
             {
-                UIManager.Instance.ShowDoorInteractionMessage(); // Mostrar el mensaje si la puerta está dentro del rango
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.ShowDoorInteractionMessage();
+                }
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -52,12 +55,18 @@ public class Character : MonoBehaviour
             }
             else
             {
-                UIManager.Instance.HideDoorInteractionMessage(); // Ocultar el mensaje si la puerta está fuera del rango
+                if (UIManager.Instance != null)
+                {
+                    UIManager.Instance.HideDoorInteractionMessage();
+                }
             }
         }
         else
         {
-            UIManager.Instance.HideDoorInteractionMessage(); // Ocultar el mensaje si no hay puerta cerca
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.HideDoorInteractionMessage();
+            }
         }
     }
 
@@ -101,7 +110,16 @@ public class Character : MonoBehaviour
 
     private void UpdateHealthUI(int currentHealth, int maxHealth)
     {
-        UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+        // Verificar si el UIManager está disponible antes de actualizar la barra de vida
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+        }
+        else
+        {
+            Debug.LogWarning("UIManager.Instance is null. Health UI could not be updated.");
+        }
+
         Debug.Log($"Health updated: {currentHealth}/{maxHealth}");
     }
 }

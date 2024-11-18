@@ -29,9 +29,10 @@ public class CharacterMovement : MonoBehaviour
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Walkable"))
             {
-                if (EventSystem.current.IsPointerOverGameObject())
+                // Verificar si EventSystem está disponible antes de usarlo
+                if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
                 {
-                    return;
+                    return; // Si el puntero está sobre la UI, no ejecutar el movimiento
                 }
                 MoveTo(hit.point);
             }

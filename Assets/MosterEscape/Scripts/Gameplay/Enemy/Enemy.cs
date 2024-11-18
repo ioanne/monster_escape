@@ -51,7 +51,16 @@ public class Enemy : MonoBehaviour
 
     private void UpdateHealthUI(int currentHealth, int maxHealth)
     {
-        UIManager.Instance.UpdateEnemyHealthBar(this, currentHealth, maxHealth);
+        // Verificar si UIManager está disponible antes de actualizar la barra de vida
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateEnemyHealthBar(this, currentHealth, maxHealth);
+        }
+        else
+        {
+            Debug.LogWarning("UIManager.Instance is null. Enemy health UI could not be updated.");
+        }
+
         Debug.Log($"Enemy Health updated: {currentHealth}/{maxHealth}");
     }
 
