@@ -102,7 +102,7 @@ public class LoadSceneManager : MonoBehaviour
         {
             scene.allowSceneActivation = true;
         }
-        await Task.Delay(300);
+        await Task.Delay(1000);
 
         Debug.Log("All scenes loaded and activated.");
         _loader.SetActive(false);

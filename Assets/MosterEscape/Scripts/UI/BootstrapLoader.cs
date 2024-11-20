@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,30 +24,34 @@ public class BootstrapLoader : MonoBehaviour
     // Método que se ejecuta cuando se hace clic en el botón "Jugar"
     void OnPlayButtonClicked()
     {
+        // Iniciar la carga de la escena de carga
+        StartCoroutine(LoadLoadingScene());
+    }
+
+    IEnumerator LoadLoadingScene()
+    {
+        // Cargar la escena de carga
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
+
+        // Esperar hasta que la escena esté completamente cargada
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        Task.Delay(100).Wait();
+        Debug.Log("LoadingScene loaded.");
+
+        // Desactivar el menú después de cargar la escena de carga
         if (menuToHide != null)
         {
-            menuToHide.SetActive(false); // Ocultar el menú
+            menuToHide.SetActive(false);
         }
         else
         {
             Debug.LogWarning("Menu to hide is not assigned.");
         }
 
-        StartCoroutine(LoadLoadingScene());
-    }
-
-    IEnumerator LoadLoadingScene()
-    {
-        // Cargar la escena de loading
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
-
-        // Esperar hasta que la escena esté cargada
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-
-        // Ahora que la escena de loading está cargada, podemos acceder al LoadSceneManager
+        // Ahora que la escena de carga está lista, comenzar a cargar las escenas principales
         if (LoadSceneManager.instance != null)
         {
             List<string> scenesToLoad = new List<string> { "PlayerUIScene", "Level1" };
