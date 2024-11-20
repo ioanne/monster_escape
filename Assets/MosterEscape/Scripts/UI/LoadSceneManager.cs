@@ -127,4 +127,80 @@ public class LoadSceneManager : MonoBehaviour
 
         Debug.Log($"Scene {sceneName} loaded synchronously.");
     }
+
+
+    public async void LoadNextLevel(string sceneToUnload, string nextSceneName)
+    {
+        Debug.Log($"Starting transition from {sceneToUnload} to {nextSceneName}.");
+
+        // Destruir todos los enemigos y pociones antes de descargar la escena
+        DestroyAllEnemiesAndPotions();
+
+        // Mostrar la pantalla de carga
+        _loader.SetActive(true);
+
+        // Descargar la escena especificada
+        if (SceneManager.GetSceneByName(sceneToUnload).isLoaded)
+        {
+            Debug.Log($"Unloading scene: {sceneToUnload}");
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(sceneToUnload);
+            while (!unloadOperation.isDone)
+            {
+                await Task.Yield();
+            }
+            Debug.Log($"Scene {sceneToUnload} unloaded.");
+        }
+        else
+        {
+            Debug.LogWarning($"Scene {sceneToUnload} is not loaded or does not exist.");
+        }
+
+        // Cargar la nueva escena de manera asincrónica
+        Debug.Log($"Loading next scene: {nextSceneName}");
+        var loadOperation = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
+        loadOperation.allowSceneActivation = false;
+
+        // Actualizar la barra de progreso mientras se carga la escena
+        while (!loadOperation.isDone)
+        {
+            float progress = Mathf.Clamp01(loadOperation.progress / 0.9f);
+            progressBar.value = progress * 100;
+            progressText.text = $"Loading... {progress * 100:F0}%";
+
+            Debug.Log($"Scene {nextSceneName} progress: {progress * 100:F0}%");
+
+            if (loadOperation.progress >= 0.9f)
+            {
+                // Espera un poco para mostrar el 100% de carga antes de activar la escena
+                await Task.Delay(10);
+                break;
+            }
+
+            await Task.Yield();
+        }
+
+        // Activar la nueva escena
+        loadOperation.allowSceneActivation = true;
+        await Task.Delay(300); // Breve retraso para una transición más suave
+
+        Debug.Log($"Scene {nextSceneName} loaded and activated.");
+        _loader.SetActive(false); // Ocultar la pantalla de carga
+    }
+
+    // Método para destruir todos los enemigos y pociones
+    private void DestroyAllEnemiesAndPotions()
+    {
+        string[] tags = { "Enemy", "Potion", "Key" };
+
+        foreach (string tag in tags)
+        {
+            GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+            foreach (var obj in objects)
+            {
+                Destroy(obj);
+            }
+        }
+
+        Debug.Log("All enemies and potions have been destroyed.");
+    }
 }

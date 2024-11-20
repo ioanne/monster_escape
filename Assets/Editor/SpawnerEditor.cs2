@@ -18,7 +18,7 @@ public class SpawnerEditor : Editor
             if (spawnSettings != null && spawnSettings.Count > 0)
             {
                 string[] options = spawnSettings
-                    .Select(settings => settings.Name)
+                    .Select(settings => settings.name)
                     .ToArray();
 
                 if (selectedIndex < 0 || selectedIndex >= options.Length)
