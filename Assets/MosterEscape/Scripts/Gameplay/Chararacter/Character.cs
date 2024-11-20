@@ -43,21 +43,40 @@ public class Character : MonoBehaviour
         {
             float distanceToDoor = Vector3.Distance(transform.position, closestDoor.transform.position);
 
+            
             if (distanceToDoor <= interactionRange)
             {
+                
                 if (UIManager.Instance != null)
                 {
                     UIManager.Instance.ShowDoorInteractionMessage();
                 }
 
+                
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     Debug.Log("Opening/Closing door: " + closestDoor.name);
-                    closestDoor.Interact();
+
+                    
+                    if (closestDoor is ConditionalDoor conditionalDoor)
+                    {
+                        
+                        int playerKeys = InventoryManager.Instance.GetItemQuantity("Key"); 
+                        bool enemiesDead = CheckIfEnemiesAreDead(); 
+
+                        
+                        conditionalDoor.CheckConditions(playerKeys, enemiesDead);
+                    }
+                    else
+                    {
+                        
+                        closestDoor.Interact();
+                    }
                 }
             }
             else
             {
+                
                 if (UIManager.Instance != null)
                 {
                     UIManager.Instance.HideDoorInteractionMessage();
@@ -71,6 +90,17 @@ public class Character : MonoBehaviour
                 UIManager.Instance.HideDoorInteractionMessage();
             }
         }
+    }
+
+    
+    private bool CheckIfEnemiesAreDead()
+    {
+        foreach (Enemy enemy in FindObjectsOfType<Enemy>())
+        {
+            Debug.Log($"Checking enemy {enemy.name}: IsDead = {enemy.IsDead()}");
+            if (!enemy.IsDead()) return false;
+        }
+        return true;
     }
 
     private Door FindClosestDoor()

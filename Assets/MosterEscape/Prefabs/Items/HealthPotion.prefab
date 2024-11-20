@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d7b22832e282564a8c67a88dd425f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Pocion
+  itemName: HealthPotion
   quantity: 1
   collect: {fileID: 8300000, guid: 04a94c68a14eb0d44b8591008e01e162, type: 3}
 --- !u!65 &715407549711120777
