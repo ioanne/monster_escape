@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 7605545711653857251}
   - component: {fileID: 3574588217560343200}
   - component: {fileID: 8529913297693038435}
-  - component: {fileID: 272059268747509900}
+  - component: {fileID: 8231033338627063157}
   - component: {fileID: 6030123366640053401}
   - component: {fileID: 8344727385203268493}
   m_Layer: 6
@@ -141,6 +141,7 @@ Transform:
   - {fileID: 1139414188687184226}
   - {fileID: 7525599838068248388}
   - {fileID: 7103735837921923437}
+  - {fileID: 5417359317920496260}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2728848406658616701
@@ -219,14 +220,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fecf6c420db4934a8f5fcc35e719820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 8
-  attackDistance: 2
+  detectionRadius: 10
+  attackDistance: 7
   targetMask:
     serializedVersion: 2
     m_Bits: 8
   animator: {fileID: 2728848406658616701}
   navMeshAgent: {fileID: 3574588217560343200}
---- !u!114 &272059268747509900
+--- !u!114 &8231033338627063157
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,11 +236,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 500136450483810556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6762e2932a3636468a54fc820154b40, type: 3}
+  m_Script: {fileID: 11500000, guid: ef7ef0dae97e8fe478afbe1e8996ef24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackSound: {fileID: 8300000, guid: 346c0d8736b528f43b35ced52aa7e748, type: 3}
   animator: {fileID: 2728848406658616701}
+  fireballPoint: {fileID: 5417359317920496260}
+  fireballPrefab: {fileID: 7898897060272589766, guid: 61d809c3eaf4b5d4a9f55b7b1d2d2ae4,
+    type: 3}
+  fireballSpeed: 30
 --- !u!114 &6030123366640053401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,10 +269,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d5f42f8421d5b4d9d1c0b332c02ffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 80
+  maxHp: 50
   defense: 1
   attackPower: 5
-  attackCooldown: 2
+  attackCooldown: 4
   attackSpeed: 2
   regenerationInterval: 4
   regenerationAmount: 1
@@ -431,6 +436,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4961556415623709024}
   m_LocalEulerAnglesHint: {x: 0.000015258788, y: -179.99997, z: -180}
+--- !u!1 &1442684546108857011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5417359317920496260}
+  m_Layer: 6
+  m_Name: SpawnerBullet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5417359317920496260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442684546108857011}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.16, z: 1.82}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3523422893450318244}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1532151723406937918
 GameObject:
   m_ObjectHideFlags: 0
