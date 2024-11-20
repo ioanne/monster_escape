@@ -3,13 +3,12 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
     [Header("Menu de Pausa")]
-    [SerializeField] private GameObject pauseMenu; // Panel del menú de pausa
+    [SerializeField] private GameObject pauseMenu;
 
     private bool isPaused = false;
 
     void Update()
     {
-        // Detectar la tecla P para pausar o reanudar
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (isPaused)
