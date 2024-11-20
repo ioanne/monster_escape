@@ -43275,37 +43275,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1584435530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f62c27ddd6da6e4eb855e9cdc5a2510, type: 3}
+  m_Script: {fileID: 11500000, guid: f35e5630e83565d4fbce11ded9319c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpawnSettings:
-  - enemyName: Minion
-    enemyPrefab: {fileID: 6375446325257105683, guid: 047b683ed0b875444b5860dc707a5c80,
-      type: 3}
-    spawnPositions:
-    - {x: -11.896666, y: 0.05986023, z: -32.19612}
-    - {x: 25.448845, y: 0.059711456, z: 19.4514}
-    - {x: 40.070087, y: 0.059711456, z: 19.373398}
-    - {x: 83.0979, y: 0.059005737, z: 15.513958}
-    - {x: 68.79019, y: 0.0605278, z: 22.904247}
-    respawnTime: 0
-  - enemyName: Warrior
-    enemyPrefab: {fileID: 5315032422651120677, guid: d6bd604d422e885408769af82c70a647,
-      type: 3}
-    spawnPositions:
-    - {x: 32.589092, y: 0.060279846, z: -48.314922}
-    - {x: 74.6096, y: 0.059555054, z: -40.864807}
-    - {x: -5.1468496, y: 0.060163498, z: -42.38839}
-    - {x: -26.460585, y: 0.059566498, z: 7.4829836}
-    - {x: 32.532547, y: 0.059991837, z: 29.686121}
-    respawnTime: 0
-  - enemyName: Mage
-    enemyPrefab: {fileID: 500136450483810556, guid: 90c04ecf454abef48b665c636fc80636,
-      type: 3}
-    spawnPositions:
-    - {x: 80.25415, y: 0.059555054, z: -47.900764}
-    - {x: -19.624733, y: 0.059566498, z: 22.662855}
-    respawnTime: 0
+  enemySpawnSettings: []
 --- !u!1001 &1587014850
 PrefabInstance:
   m_ObjectHideFlags: 0

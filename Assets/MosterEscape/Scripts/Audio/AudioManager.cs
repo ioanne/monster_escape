@@ -9,8 +9,8 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource audioSource;
 
-    [SerializeField] private AudioClip menuMusic;   // Música para el menú principal
-    [SerializeField] private AudioClip gameplayMusic; // Música para el gameplay
+    [SerializeField] private AudioClip menuMusic;   // Musica para el menu principal
+    [SerializeField] private AudioClip gameplayMusic; // Musica para el gameplay
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            return; // Asegúrate de salir si no es la instancia principal
+            return; // Asegurate de salir si no es la instancia principal
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -30,10 +30,10 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        // Reproduce música inicial según la escena cargada al inicio
+        // Reproduce musica inicial segun la escena cargada al inicio
         OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
-        // Suscríbete al evento de cambio de escena
+        // Suscribete al evento de cambio de escena
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -45,13 +45,13 @@ public class AudioManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Selecciona la música según el índice de la escena
+        // Selecciona la musica segun el indice de la escena
         switch (scene.buildIndex)
         {
-            case 1: // Índice de la escena MainMenu
+            case 1: // indice de la escena MainMenu
                 PlayMusic(menuMusic);
                 break;
-            case 6: // Índice de la escena Gameplay
+            case 6: // indice de la escena Gameplay
                 PlayMusic(gameplayMusic);
                 break;
         }
@@ -60,9 +60,9 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(AudioClip music)
     {
-        if (audioSource.clip == music) return; // Evita reiniciar la música si ya está sonando
+        if (audioSource.clip == music) return; // Evita reiniciar la musica si ya esta sonando
         audioSource.clip = music;
-        audioSource.loop = true; // Asegúrate de que la música se reproduzca en bucle
+        audioSource.loop = true; // Asegurate de que la musica se reproduzca en bucle
         audioSource.Play();
     }
 
