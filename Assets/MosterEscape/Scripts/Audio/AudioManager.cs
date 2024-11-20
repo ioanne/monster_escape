@@ -51,7 +51,7 @@ public class AudioManager : MonoBehaviour
             case 1: // indice de la escena MainMenu
                 PlayMusic(menuMusic);
                 break;
-            case 6: // indice de la escena Gameplay
+            case 3: // indice de la escena Gameplay
                 PlayMusic(gameplayMusic);
                 break;
         }
