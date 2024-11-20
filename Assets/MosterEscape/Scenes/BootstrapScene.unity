@@ -6198,6 +6198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playButton: {fileID: 1171211012}
+  menuToHide: {fileID: 1230229244}
 --- !u!4 &1055134944
 Transform:
   m_ObjectHideFlags: 0

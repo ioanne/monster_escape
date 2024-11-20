@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class BootstrapLoader : MonoBehaviour
 {
     [SerializeField] private Button playButton; // Botón para iniciar la carga de la escena
-
+    [SerializeField] private GameObject menuToHide;
     void Start()
     {
         if (playButton != null)
@@ -23,6 +23,15 @@ public class BootstrapLoader : MonoBehaviour
     // Método que se ejecuta cuando se hace clic en el botón "Jugar"
     void OnPlayButtonClicked()
     {
+        if (menuToHide != null)
+        {
+            menuToHide.SetActive(false); // Ocultar el menú
+        }
+        else
+        {
+            Debug.LogWarning("Menu to hide is not assigned.");
+        }
+
         StartCoroutine(LoadLoadingScene());
     }
 
