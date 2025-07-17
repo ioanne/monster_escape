@@ -24,7 +24,7 @@ public class InventoryToggle : MonoBehaviour
 
     void Update()
     {
-        if ((Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) && Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             isInventoryVisible = !isInventoryVisible;
             inventoryPanel.SetActive(isInventoryVisible);

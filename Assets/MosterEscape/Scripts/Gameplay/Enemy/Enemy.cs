@@ -47,7 +47,14 @@ public class Enemy : MonoBehaviour
         AudioManager.Instance.Playsound(DeadSFX);
         Debug.Log("Enemy Die");
         OnEnemyDeath?.Invoke();
+
         GetComponent<Animator>().SetBool("IsDeath", true);
+
+        foreach (Collider col in GetComponentsInChildren<Collider>())
+        {
+            col.enabled = false;
+        }
+
         Destroy(gameObject, 2f);
     }
 
@@ -63,7 +70,7 @@ public class Enemy : MonoBehaviour
             Debug.LogWarning("UIManager.Instance is null. Enemy health UI could not be updated.");
         }
 
-        Debug.Log($"Enemy Health updated: {currentHealth}/{maxHealth}");
+        // Debug.Log($"Enemy Health updated: {currentHealth}/{maxHealth}");
     }
 
     public float GetAttackPower()

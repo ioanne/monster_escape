@@ -1689,13 +1689,14 @@ GameObject:
   - component: {fileID: 8167189536507443221}
   - component: {fileID: 6436948344346406908}
   - component: {fileID: 7073201071893021222}
+  - component: {fileID: 337334153370743934}
   m_Layer: 6
   m_Name: Skeleton_Warrior
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2364948894465314731
 Transform:
   m_ObjectHideFlags: 0
@@ -1759,7 +1760,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 2.503206, z: 1}
   m_Center: {x: 0, y: 1.240553, z: 0}
@@ -1850,6 +1851,29 @@ MonoBehaviour:
   regenerationInterval: 4
   regenerationAmount: 1
   DeadSFX: {fileID: 8300000, guid: 11672bafb42aca64ea4986d8a1683ae3, type: 3}
+--- !u!136 &337334153370743934
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5315032422651120677}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.85
+  m_Height: 2.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.18, z: 0}
 --- !u!1 &5406973291091046011
 GameObject:
   m_ObjectHideFlags: 0

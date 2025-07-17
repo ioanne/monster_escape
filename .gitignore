@@ -70,3 +70,22 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+
+# Lightmap & lighting generated files
+Assets/**/LightingData.asset
+Assets/**/Lightmap-*.exr
+Assets/**/Lightmap*.png
+Assets/**/LightmapSnapshot.asset
+Assets/**/ReflectionProbe-*.exr
+Assets/**/GlobalIllumination.asset
+Assets/**/Baked*.*  # A veces aparece con este nombre
+
+# Opcional: carpeta global de caché (no siempre está en el proyecto)
+GICache/
+
+# Lightmaps y sus metadatos
+Assets/**/Lightmap-*.png
+Assets/**/Lightmap-*.png.meta
+Assets/**/Lightmap-*.exr
+Assets/**/Lightmap-*.exr.meta

@@ -3,12 +3,21 @@ using UnityEngine.UI;
 
 public class Restart : MonoBehaviour
 {
-    [SerializeField] private Button RestartButton;
+    [SerializeField] private Button restartButton;
+
     void Start()
     {
-        if (RestartButton != null)
+        if (restartButton != null)
         {
-            RestartButton.onClick.AddListener(RestartButtonClicked);
+            restartButton.onClick.AddListener(RestartButtonClicked);
+
+            // Asegurarse de que el cursor esté visible cuando aparece el botón
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Debug.LogWarning("RestartButton no está asignado en el inspector.");
         }
     }
 
@@ -16,5 +25,4 @@ public class Restart : MonoBehaviour
     {
         LoadSceneManager.instance.LoadSceneSynchronously("BootstrapScene");
     }
-
 }

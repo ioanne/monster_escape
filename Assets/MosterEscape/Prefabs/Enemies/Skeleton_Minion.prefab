@@ -2076,13 +2076,14 @@ GameObject:
   - component: {fileID: 5976046228984285015}
   - component: {fileID: 6830194284960207868}
   - component: {fileID: 1063831400365675253}
+  - component: {fileID: 7044392141124059200}
   m_Layer: 6
   m_Name: Skeleton_Minion
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &404011284428052984
 Transform:
   m_ObjectHideFlags: 0
@@ -2146,7 +2147,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
@@ -2237,6 +2238,29 @@ MonoBehaviour:
   regenerationInterval: 4
   regenerationAmount: 1
   DeadSFX: {fileID: 8300000, guid: 11672bafb42aca64ea4986d8a1683ae3, type: 3}
+--- !u!136 &7044392141124059200
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6375446325257105683}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7
+  m_Height: 2.33
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.16, z: 0}
 --- !u!1 &6476001893554020523
 GameObject:
   m_ObjectHideFlags: 0

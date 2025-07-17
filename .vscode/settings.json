@@ -56,7 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "monster_escape.sln",
+    "dotnet.defaultSolution": "monster_escape_new.sln",
     "files.watcherExclude": {
         "**/Library/**": true,
         "**/Logs/**": true,

@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 8231033338627063157}
   - component: {fileID: 6030123366640053401}
   - component: {fileID: 8344727385203268493}
+  - component: {fileID: 327529352735227517}
   m_Layer: 6
   m_Name: Skeleton_Mage
   m_TagString: Enemy
@@ -182,7 +183,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 2.221219, z: 1}
   m_Center: {x: 0, y: 1.0843582, z: 0}
@@ -277,6 +278,29 @@ MonoBehaviour:
   regenerationInterval: 4
   regenerationAmount: 1
   DeadSFX: {fileID: 8300000, guid: 11672bafb42aca64ea4986d8a1683ae3, type: 3}
+--- !u!136 &327529352735227517
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500136450483810556}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.85
+  m_Height: 2.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.24, z: 0}
 --- !u!1 &870366456148294612
 GameObject:
   m_ObjectHideFlags: 0

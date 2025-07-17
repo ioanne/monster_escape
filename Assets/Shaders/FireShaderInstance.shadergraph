@@ -1,0 +1,59 @@
+
+{
+  "fileID": 11400000,
+  "guid": "00000000000000000000000000000000",
+  "MonoImporter": {
+    "externalObjects": {},
+    "serializedVersion": 2,
+    "defaultReferences": [],
+    "executionOrder": 0,
+    "icon": { "instanceID": 0 },
+    "userData": "",
+    "assetBundleName": "",
+    "assetBundleVariant": ""
+  },
+  "ShaderGraph": {
+    "m_Name": "FireShaderTemplate",
+    "m_Path": "Assets/Shaders/FireShaderTemplate.shadergraph",
+    "m_SerializedData": {
+      "m_Properties": [
+        {
+          "m_Name": "FireTexture",
+          "m_ReferenceName": "_FireTexture",
+          "m_Type": "Texture2D",
+          "m_Default": { "m_Texture": null },
+          "m_OverrideReferenceName": false
+        },
+        {
+          "m_Name": "NoiseTexture",
+          "m_ReferenceName": "_NoiseTexture",
+          "m_Type": "Texture2D",
+          "m_Default": { "m_Texture": null },
+          "m_OverrideReferenceName": false
+        },
+        {
+          "m_Name": "EmissionColor",
+          "m_ReferenceName": "_EmissionColor",
+          "m_Type": "Color",
+          "m_Default": { "r": 1, "g": 0.5, "b": 0.2, "a": 1 },
+          "m_OverrideReferenceName": false
+        },
+        {
+          "m_Name": "ScrollSpeed",
+          "m_ReferenceName": "_ScrollSpeed",
+          "m_Type": "Float",
+          "m_Default": 0.5,
+          "m_OverrideReferenceName": false
+        },
+        {
+          "m_Name": "DistortionStrength",
+          "m_ReferenceName": "_DistortionStrength",
+          "m_Type": "Float",
+          "m_Default": 0.2,
+          "m_OverrideReferenceName": false
+        }
+      ],
+      "m_OutputTarget": "HDRP"
+    }
+  }
+}

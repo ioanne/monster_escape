@@ -1,175 +1,138 @@
 using UnityEngine;
+using System.Collections;
 
 public class CharacterCombatMovement : MonoBehaviour
 {
-    [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private float stoppingDistance = 2f;
+    [Header("Combate")]
+    [SerializeField] private float attackRange = 2f;
+    [SerializeField] private float attackCooldown = 1.0f;
+    [SerializeField] private float attackAngle = 60f;
     [SerializeField] private int attackDamage = 20;
-    [SerializeField] private GameObject selectedEnemy;
-    [SerializeField] private AudioClip AttackSFX;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private AudioClip attackSFX;
+    [SerializeField] private Transform attackOrigin;
 
+    private Animator animator;
+    private float lastAttackTime = -Mathf.Infinity;
     private bool isAttacking = false;
-    private bool enemySelected = false;
+    private Enemy currentEnemy = null;
 
-    private Animator playerAnimator;
-    private CharacterMovement characterMovement;
-
-    void Start()
+    private void Start()
     {
-        playerAnimator = GetComponent<Animator>();
-        characterMovement = GetComponent<CharacterMovement>();
+        animator = GetComponent<Animator>();
+        if (attackOrigin == null)
+            attackOrigin = Camera.main.transform;
     }
 
-    void Update()
+    private void Update()
     {
-        HandleCombatInput();
-        HandleCancelTargetInput();
-
-        if (enemySelected && !characterMovement.IsMoving())
+        if (MenuManager.Instance != null && MenuManager.Instance.IsAnyMenuOpen)
         {
-            RotateTowardsEnemy();
+            Debug.Log("⛔ Ataque bloqueado: hay un menú abierto.");
+            return;
         }
 
-        CheckDistanceToEnemy();
+        HandleAttackInput();
     }
 
-    private void HandleCombatInput()
+    private void HandleAttackInput()
     {
-        if (Input.GetMouseButtonDown(0) && !isAttacking) // Bloquea nuevos ataques si ya está atacando
+        if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            if (Time.time - lastAttackTime < attackCooldown)
             {
-                ProcessRaycastHit(hit);
+                Debug.Log("Esperando cooldown de ataque.");
+                return;
             }
-        }
-    }
 
-    private void ProcessRaycastHit(RaycastHit hit)
-    {
-        if (IsEnemyHit(hit))
-        {
-            GameObject enemy = hit.collider.gameObject;
-            HandleEnemySelection(enemy);
-        }
-        else if (hit.collider.CompareTag("Walkable"))
-        {
-            CancelAttack();
-            characterMovement.HandleMovementInput();
-        }
-    }
+            lastAttackTime = Time.time;
+            isAttacking = true;
 
-    private bool IsEnemyHit(RaycastHit hit)
-    {
-        return ((1 << hit.collider.gameObject.layer) & enemyLayer) != 0;
-    }
+            Debug.Log("Ataque iniciado.");
+            animator.SetTrigger("AttackTrigger");
+            AudioManager.Instance?.Playsound(attackSFX);
 
-    private void HandleEnemySelection(GameObject enemy)
-    {
-        if (selectedEnemy == enemy)
-        {
-            if (enemySelected)
+            Debug.Log($"Detectando enemigos con OverlapSphere en {attackOrigin.position}, radio {attackRange}...");
+            Collider[] hits = Physics.OverlapSphere(attackOrigin.position, attackRange, enemyLayer);
+            Debug.Log($"Detectados {hits.Length} posibles objetivos en rango.");
+
+            foreach (Collider col in hits)
             {
-                characterMovement.MoveToTarget(enemy.transform, stoppingDistance);
+                Debug.Log($"Revisando objetivo: {col.name}");
+
+                Vector3 toTarget = col.transform.position - transform.position;
+                toTarget.y = 0f;
+
+                Vector3 forward = transform.forward;
+                forward.y = 0f;
+
+                float angle = Vector3.Angle(forward, toTarget.normalized);
+                Debug.Log($"Ángulo con {col.name}: {angle} grados (máximo permitido: {attackAngle / 2f})");
+
+                if (angle <= attackAngle / 2f)
+                {
+                    Enemy enemyComponent = col.GetComponentInParent<Enemy>();
+                    if (enemyComponent != null)
+                    {
+                        // Rotar al enemigo justo antes de golpear
+                        Vector3 direction = (enemyComponent.transform.position - transform.position).normalized;
+                        direction.y = 0;
+                        Quaternion lookRotation = Quaternion.LookRotation(direction);
+                        transform.rotation = lookRotation;
+
+                        Debug.Log($"Enemigo válido detectado: {enemyComponent.name}, aplicando daño: {attackDamage}");
+                        enemyComponent.TakeDamage(attackDamage);
+
+                        // Desuscribir anterior si cambia
+                        if (currentEnemy != null && currentEnemy != enemyComponent)
+                        {
+                            currentEnemy.OnEnemyDeath -= ClearCurrentEnemy;
+                        }
+
+                        currentEnemy = enemyComponent;
+                        currentEnemy.OnEnemyDeath += ClearCurrentEnemy;
+
+                        UIManager.Instance?.ShowEnemyHealthBar(currentEnemy);
+                        break;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"El objeto {col.name} no tiene componente Enemy en el padre.");
+                    }
+                }
+                else
+                {
+                    Debug.Log($"{col.name} está fuera del ángulo permitido.");
+                }
             }
+
+            StartCoroutine(ResetAttackAfterDelay(attackCooldown));
         }
-        else
+    }
+
+    private void ClearCurrentEnemy()
+    {
+        if (currentEnemy != null)
         {
-            ClearTarget(); // Unificar la cancelación previa
-            SelectNewEnemy(enemy);
+            Debug.Log($"Desmarcando enemigo: {currentEnemy.name}");
+            currentEnemy.OnEnemyDeath -= ClearCurrentEnemy;
+            UIManager.Instance?.HideEnemyHealthBar(currentEnemy);
+            currentEnemy = null;
         }
     }
 
-    private void SelectNewEnemy(GameObject enemy)
-    {
-        selectedEnemy = enemy;
-        enemySelected = true;
-        isAttacking = false;
-
-        SubscribeToEnemyEvents();
-        UIManager.Instance.ShowEnemyHealthBar(selectedEnemy.GetComponent<Enemy>());
-    }
-
-    private void SubscribeToEnemyEvents()
-    {
-        Enemy enemyComponent = selectedEnemy.GetComponent<Enemy>();
-        if (enemyComponent != null)
-        {
-            enemyComponent.OnEnemyDeath += ClearTarget;
-        }
-    }
-
-    private void HandleCancelTargetInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ClearTarget();
-            Debug.Log("Attack and target canceled by pressing ESC");
-        }
-    }
-
-    private void CheckDistanceToEnemy()
-    {
-        if (selectedEnemy != null && !isAttacking)
-        {
-            float distance = Vector3.Distance(transform.position, selectedEnemy.transform.position);
-            if (distance <= stoppingDistance)
-            {
-                AttackEnemy();
-            }
-        }
-    }
-
-    private void AttackEnemy()
-    {
-        characterMovement.StopMovement();
-        isAttacking = true;
-        playerAnimator.SetTrigger("AttackTrigger");
-        AudioManager.Instance.Playsound(AttackSFX);
-
-        Enemy enemy = selectedEnemy.GetComponent<Enemy>();
-        enemy?.TakeDamage(attackDamage);
-
-        StartCoroutine(ResetAttackAfterDelay(1.0f)); // Restablece isAttacking después del retraso
-    }
-
-    private void RotateTowardsEnemy()
-    {
-        if (selectedEnemy == null) return;
-
-        Vector3 direction = (selectedEnemy.transform.position - transform.position).normalized;
-        direction.y = 0;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, Time.deltaTime * 360f);
-    }
-
-    private void CancelAttack()
-    {
-        isAttacking = false;
-        playerAnimator.ResetTrigger("AttackTrigger");
-        characterMovement.StopMovement();
-    }
-
-    private void ClearTarget()
-    {
-        if (selectedEnemy != null)
-        {
-            Enemy enemyComponent = selectedEnemy.GetComponent<Enemy>();
-            if (enemyComponent != null)
-            {
-                enemyComponent.OnEnemyDeath -= ClearTarget;
-            }
-            UIManager.Instance.HideEnemyHealthBar(selectedEnemy.GetComponent<Enemy>());
-        }
-
-        CancelAttack();
-        selectedEnemy = null;
-        enemySelected = false;
-    }
-
-    private System.Collections.IEnumerator ResetAttackAfterDelay(float delay)
+    private IEnumerator ResetAttackAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         isAttacking = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        if (attackOrigin != null)
+        {
+            Gizmos.DrawWireSphere(attackOrigin.position, attackRange);
+        }
     }
 }

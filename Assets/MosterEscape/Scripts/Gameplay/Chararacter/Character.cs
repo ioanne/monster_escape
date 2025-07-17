@@ -154,6 +154,6 @@ public class Character : MonoBehaviour
             Debug.LogWarning("UIManager.Instance is null. Health UI could not be updated.");
         }
 
-        Debug.Log($"Health updated: {currentHealth}/{maxHealth}");
+        // Debug.Log($"Health updated: {currentHealth}/{maxHealth}");
     }
 }
